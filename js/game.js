@@ -2,6 +2,7 @@
 var space;
 var player;
 var points;
+var enemy;
 var livesText;
 var scoreText;
 //velocidad de la nave
@@ -26,10 +27,26 @@ var gameState = {
         points = game.add.sprite(500, 200, 'points-test');
         points.scale.setTo(0.01, 0.01);
 
+        //creacion del enemigo y cambio de la escala
+        enemy = game.add.sprite(700, 400, 'enemy-test');
+        enemy.scale.setTo(0.5, 0.5);
+
+        //grupo de enemigos
+        enemies = game.add.group();
+        enemies.enableBody = true;
+
+        enemies.createMultiple(10, 'enemy');
+
+
+
         //añadimos fisicas a la nave y a los items, choque con los limites
         game.physics.enable(player);
         game.physics.enable(points);
+        game.physics.enable(enemy);
         player.body.collideWorldBounds = true;
+
+        //añadir fisica de caida al item
+        //points.body.gravity.y = 500;
 
         //HUD
         //vidas
@@ -41,7 +58,14 @@ var gameState = {
 
     update: function() {
         game.physics.arcade.overlap(player, points, this.collectPoints, null, this);
+        game.physics.arcade.overlap(player, enemy, this.killPlayer, null, this);
 
+        this.movePlayer();
+    },
+
+
+    //Funcion para mover a la nave
+    movePlayer: function() {
         //derecha
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.Keyboard.D)) {
             player.x += speed;
@@ -58,9 +82,14 @@ var gameState = {
         }
     },
 
+    killPlayer: function(player, enemy) {
+        lives -=1;
+        livesText.text = 'Lives: ' + lives;
+    },
+
     //Funcion para recoger puntos
     collectPoints: function(player, points) {
-        //borra el item de puntos de la pantalla
+        //borra el item de la pantalla
         points.kill();
 
         //suma y actualiza la puntuacion
