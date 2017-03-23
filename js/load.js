@@ -20,12 +20,12 @@ var loadState = {
         game.load.image('enemy01', 'assets/sprites/enemy01.png');
 
         //carga de sonidos
-        game.load.audio('1up', 'assets/effects/1up.wav');
-        game.load.audio('coin', 'assets/effects/coin.wav');
-        game.load.audio('shoot', 'assets/effects/shoot.wav');
+        game.load.audio('1up', 'assets/sfx/1up.wav');
+        game.load.audio('coin', 'assets/sfx/coin.wav');
+        game.load.audio('shoot', 'assets/sfx/shoot.wav');
 
         //carga de musica
-
+        game.load.audio('mainMenuMusic', 'assets/music/mainMenuMusic.wav');
 
     },
 

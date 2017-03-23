@@ -37,8 +37,10 @@ var gameState = {
         game.physics.enable(enemy);
         player.body.collideWorldBounds = true;
 
-        //añadir fisica de caida al item
-        //points.body.gravity.y = 500;
+        //creacion de sonidos
+        upSound = game.add.audio('jump');
+        coinSound = game.add.audio('coin');
+        shootSound = game.add.audio('shoot');
 
         //HUD
         //vidas
@@ -53,7 +55,6 @@ var gameState = {
         game.physics.arcade.overlap(player, enemy, this.killPlayer, null, this);
 
         this.movePlayer();
-        this.gainLives();
     },
 
 
@@ -84,12 +85,8 @@ var gameState = {
     },
 
     gainLives: function() {
-        for (i = 0; i < score; i++) {
-
-        }
-
-        if (score == 10) {
-            lives += 1;
+        if (score != 0 || score % 1000 === 0)  {
+            lives++;
             livesText.text = 'Lives: ' + lives;
         }
     },
@@ -99,8 +96,11 @@ var gameState = {
         points.kill();
 
         //suma y actualiza la puntuacion
-        score += 10;
+        score += 1000;
         scoreText.text = 'Score: ' + score;
+        coinSound.play();
+
+        this.gainLives();
     }
 
 }
