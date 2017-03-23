@@ -1,7 +1,7 @@
 var bootState = {
     preload: function () {
-        // Load the image
-        game.load.image('progressBar', 'assets/sprites/progressbar-test.png');
+        //carga de barra de cargado
+        game.load.image('progressBar', 'assets/sprites/progressbar.png');
     },
 
     create: function() {
@@ -14,10 +14,10 @@ var bootState = {
         //limites de la pantalla
         game.world.setBounds(0, 0, 1280, 720);
 
-        // Set some game settings
+        //color de fondo de pantalla
         game.stage.backgroundColor = '#3498db';
 
-        // Start the load state
+        //cargamos el primer state, LOAD
         game.state.start('load');
     }
 };

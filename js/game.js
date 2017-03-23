@@ -15,29 +15,21 @@ var lives = 3;
 var gameState = {
     create: function() {
         //creacion de fondo y cambio de altura-achura por el lienzo del juego
-        space = game.add.sprite(0, 0, 'space-test');
+        space = game.add.sprite(0, 0, 'stage-back');
         space.height = game.height;
         space.width = game.width;
 
         //creacion de la nave y cambio de la escala
-        player = game.add.sprite(30, 300, 'ship-test');
+        player = game.add.sprite(30, 300, 'player');
         player.scale.setTo(0.2, 0.2);
 
         //creacion del item y cambio de la escala
-        points = game.add.sprite(500, 200, 'points-test');
+        points = game.add.sprite(500, 200, 'item01');
         points.scale.setTo(0.01, 0.01);
 
         //creacion del enemigo y cambio de la escala
-        enemy = game.add.sprite(700, 400, 'enemy-test');
+        enemy = game.add.sprite(700, 400, 'enemy01');
         enemy.scale.setTo(0.5, 0.5);
-
-        //grupo de enemigos
-        enemies = game.add.group();
-        enemies.enableBody = true;
-
-        enemies.createMultiple(10, 'enemy');
-
-
 
         //añadimos fisicas a la nave y a los items, choque con los limites
         game.physics.enable(player);
@@ -53,7 +45,7 @@ var gameState = {
         livesText = game.add.text(10, 10, 'Lives: ' + lives, { fontSize: '20px', fill: '#fff' });
 
         //puntuacion
-        scoreText = game.add.text(100, 10, 'Score: ' + score, { fontSize: '20px', fill: '#fff' });
+        scoreText = game.add.text(200, 10, 'Score: ' + score, { fontSize: '20px', fill: '#fff' });
     },
 
     update: function() {
@@ -61,6 +53,7 @@ var gameState = {
         game.physics.arcade.overlap(player, enemy, this.killPlayer, null, this);
 
         this.movePlayer();
+        this.gainLives();
     },
 
 
@@ -83,11 +76,24 @@ var gameState = {
     },
 
     killPlayer: function(player, enemy) {
-        lives -=1;
+        lives --;
         livesText.text = 'Lives: ' + lives;
+        player.destroy();
+        return false;
+
     },
 
-    //Funcion para recoger puntos
+    gainLives: function() {
+        for (i = 0; i < score; i++) {
+
+        }
+
+        if (score == 10) {
+            lives += 1;
+            livesText.text = 'Lives: ' + lives;
+        }
+    },
+
     collectPoints: function(player, points) {
         //borra el item de la pantalla
         points.kill();
@@ -95,10 +101,6 @@ var gameState = {
         //suma y actualiza la puntuacion
         score += 10;
         scoreText.text = 'Score: ' + score;
-
-        if (score == 10) {
-            lives += 1;
-            livesText.text = 'Lives: ' + lives;
-        }
     }
+
 }

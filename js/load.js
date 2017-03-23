@@ -1,20 +1,32 @@
 var loadState = {
 
     preload: function() {
-        //texto de carga
+        //carga texto de cargado
         var loadingBar = game.add.text(80,150, 'loading...', {font: '30px Courier', fill: '#ffffff'});
+        loadingBar.anchor.setTo(0.5, 0.5);
 
-        //carga de fondo
-        game.load.image('space-test', 'assets/backgrounds/space-test.gif');
+        //muestra de la barra de carga
+        var progressBar = game.add.sprite(game.width/2, 200, 'progressBar');
+        progressBar.anchor.setTo(0.5, 0.5);
+        game.load.setPreloadSprite(progressBar);
 
-        //carga de nave
-        game.load.image('ship-test', 'assets/sprites/ship-test.png');
+        //carga de fondos
+        game.load.image('main-menu-back', 'assets/backgrounds/main-menu-back.png');
+        game.load.image('stage-back', 'assets/backgrounds/stage-back.gif');
 
-        //carga de item
-        game.load.image('points-test', 'assets/sprites/item-test.png');
+        //carga de imagenes
+        game.load.image('player', 'assets/sprites/player.png');
+        game.load.image('item01', 'assets/sprites/item01.png');
+        game.load.image('enemy01', 'assets/sprites/enemy01.png');
 
-        //carga de enemigo
-        game.load.image('enemy-test', 'assets/sprites/enemy-test.png');
+        //carga de sonidos
+        game.load.audio('1up', 'assets/effects/1up.wav');
+        game.load.audio('coin', 'assets/effects/coin.wav');
+        game.load.audio('shoot', 'assets/effects/shoot.wav');
+
+        //carga de musica
+
+
     },
 
     create: function() {
