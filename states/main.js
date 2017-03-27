@@ -1,13 +1,13 @@
-//Variable game que contiene el canvas donde se despliega el juego
+//variable where the canvas of the game is stored
 var game = new Phaser.Game(1280, 720, Phaser.AUTO, '');
 
-//Adición de los diferentes states
+//addition of the game states
 game.state.add('boot', bootState);
 game.state.add('load', loadState);
-//game.state.add('logo', logoState);
+game.state.add('splash', splashState);
 game.state.add('menu', menuState);
 game.state.add('game', gameState);
 //game.state.add('gameover', gameoverState);
 
-//cargamos el primer state, BOOT
+//first state load, BOOT
 game.state.start('boot');

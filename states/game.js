@@ -38,7 +38,7 @@ var gameState = {
         player.body.collideWorldBounds = true;
 
         //creacion de sonidos
-        upSound = game.add.audio('jump');
+        upSound = game.add.audio('1up');
         coinSound = game.add.audio('coin');
         shootSound = game.add.audio('shoot');
 
@@ -77,7 +77,7 @@ var gameState = {
     },
 
     killPlayer: function(player, enemy) {
-        lives --;
+        lives--;
         livesText.text = 'Lives: ' + lives;
         player.destroy();
         return false;
@@ -88,6 +88,7 @@ var gameState = {
         if (score != 0 || score % 1000 === 0)  {
             lives++;
             livesText.text = 'Lives: ' + lives;
+            upSound.play();
         }
     },
 

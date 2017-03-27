@@ -1,4 +1,20 @@
+@font-face {
+    font-family: 'press_start';
+    src: url('../assets/fonts/PrStart.woff2') format('woff2'),
+         url('../assets/fonts/PrStart.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
+    margin:0;
+    padding:0;
+}
+
+.hiddenText {
+    font-family: 'press_start';
+    visibility: hidden;
+    height: 0;
     margin:0;
     padding:0;
 }

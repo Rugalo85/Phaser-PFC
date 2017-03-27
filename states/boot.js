@@ -1,23 +1,23 @@
 var bootState = {
     preload: function () {
-        //carga de barra de cargado
+        //loading bar sprite
         game.load.image('progressBar', 'assets/sprites/progressbar.png');
     },
 
     create: function() {
-        //arrancamos sistema de fisicas
+        //physics system start
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //pantalla completa en todo momento
+        //fullscreen everytime
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
-        //limites de la pantalla
+        //screen bounderies
         game.world.setBounds(0, 0, 1280, 720);
 
-        //color de fondo de pantalla
+        //background colour
         game.stage.backgroundColor = '#3498db';
 
-        //cargamos el primer state, LOAD
+        //second state load, LOAD
         game.state.start('load');
     }
 };
