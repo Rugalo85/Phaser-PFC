@@ -8,6 +8,9 @@ var bootState = {
         //physics system start
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        //keep running even the focus is lost
+        game.stage.disableVisibilityChange = true;
+
         //fullscreen everytime
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 

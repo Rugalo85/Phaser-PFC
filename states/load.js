@@ -11,26 +11,29 @@ var loadState = {
         game.load.setPreloadSprite(progressBar);
 
         //background images
-        game.load.image('parallaxMenu01', '../assets/backgrounds/parallaxMenu01.png');
-        game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');
-        game.load.image('parallaxMenu03', '../assets/backgrounds/parallaxMenu03.png');
-        game.load.image('main-menu-back', '../assets/backgrounds/main-menu.png');
-        game.load.image('stage-back', '../assets/backgrounds/stage-back.gif');
+        game.load.image('parallaxMenu01', './assets/backgrounds/parallaxMenu01.png');
+        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxMenu03', './assets/backgrounds/parallaxMenu03.png');
+        game.load.image('stage-back', './assets/backgrounds/stage-back.gif');
 
         //sprites-logos
-        game.load.image('ceedcv-logo', '../assets/sprites/ceedcv.png');
-        game.load.image('ruben-logo', '../assets/sprites/ruben-logo.png');
-        game.load.image('player', '../assets/sprites/player.png');
-        game.load.image('item01', '../assets/sprites/item01.png');
-        game.load.image('enemy01', '../assets/sprites/enemy01.png');
+        game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
+        game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
+        game.load.image('presents', './assets/sprites/presents.png');
+        game.load.image('player', './assets/sprites/player.png');
+        game.load.image('item01', './assets/sprites/item01.png');
+        game.load.image('enemy01', './assets/sprites/enemy01.png');
+
+        //spritesheets
+        game.load.spritesheet('ruben', './assets/spritesheets/ruben-spritesheet.png', 375, 375);
 
         //sound effects
-        game.load.audio('1up', '../assets/sfx/1up.wav');
-        game.load.audio('coin', '../assets/sfx/coin.wav');
-        game.load.audio('shoot', '../assets/sfx/shoot.wav');
+        game.load.audio('1up', './assets/sfx/1up.wav');
+        game.load.audio('coin', './assets/sfx/coin.wav');
+        game.load.audio('shoot', './assets/sfx/shoot.wav');
 
         //music
-        game.load.audio('splashScreenTheme', ['../assets/music/intro.ogg', '../assets/music/intro.mp3']);
+        game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);
 
     },
 
