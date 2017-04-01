@@ -2,13 +2,28 @@ var loadState = {
 
     preload: function() {
         //loading text
-        var loadingBar = game.add.text(80,150, 'Loading...', {font: '30px Courier', fill: '#ffffff'});
-        loadingBar.anchor.setTo(0.5, 0.5);
+        var loadingText = game.add.text(game.width/2, 300, 'Loading, please wait...', {font: '20px PrStart', fill: '#000000'});
+        loadingText.anchor.setTo(0, 0);
 
         //loading bar
-        var progressBar = game.add.sprite(game.width/2, 200, 'progressBar');
-        progressBar.anchor.setTo(0.5, 0.5);
-        game.load.setPreloadSprite(progressBar);
+        var progressBar2 = game.add.sprite(game.width/2, game.height/2, 'progressBar2');
+        progressBar2.anchor.setTo(0, 0);
+        var progressBar1 = game.add.sprite(game.width/2, game.height/2, 'progressBar1');
+        progressBar1.anchor.setTo(0, 0);
+        game.load.setPreloadSprite(progressBar2, 0);
+
+        var progressDisplay = 0;
+        var ready = false;
+
+        var timerEvt = game.time.events.loop(100, function (){
+            if(progressDisplay < 100){
+                if(progressDisplay < game.load.progress){
+                    loadingText.text = 'Loading, please wait...'+(++progressDisplay)+'%';
+                }
+            } else {
+                game.time.events.remove(timerEvt);
+            }
+        }, this);
 
         //background images
         game.load.image('parallaxMenu01', './assets/backgrounds/parallaxMenu01.png');
@@ -19,10 +34,11 @@ var loadState = {
         //sprites-logos
         game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
         game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
-        game.load.image('presents', './assets/sprites/presents.png');
         game.load.image('player', './assets/sprites/player.png');
         game.load.image('item01', './assets/sprites/item01.png');
         game.load.image('enemy01', './assets/sprites/enemy01.png');
+        game.load.image('missile', './assets/sprites/missile.png');
+        game.load.image('arrow', './assets/sprites/arrow.png');
 
         //spritesheets
         game.load.spritesheet('ruben', './assets/spritesheets/ruben-spritesheet.png', 375, 375);
@@ -31,16 +47,13 @@ var loadState = {
         game.load.audio('1up', './assets/sfx/1up.wav');
         game.load.audio('coin', './assets/sfx/coin.wav');
         game.load.audio('shoot', './assets/sfx/shoot.wav');
+        game.load.audio('select', ['./assets/sfx/select.ogg', './assets/sfx/select.mp3']);
 
         //music
         game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);
-
     },
 
     create: function() {
-        //third state load, SPLASH
         game.state.start('splash');
     }
-
-
 }

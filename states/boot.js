@@ -1,7 +1,8 @@
 var bootState = {
     preload: function () {
         //loading bar sprite
-        game.load.image('progressBar', 'assets/sprites/progressbar.png');
+        game.load.image('progressBar1', 'assets/sprites/progressbar1.png');
+        game.load.image('progressBar2', 'assets/sprites/progressbar2.png');
     },
 
     create: function() {
@@ -18,7 +19,7 @@ var bootState = {
         game.world.setBounds(0, 0, 1280, 720);
 
         //background colour
-        game.stage.backgroundColor = '#3498db';
+        game.stage.backgroundColor = '#ffffff';
 
         //second state load, LOAD
         game.state.start('load');

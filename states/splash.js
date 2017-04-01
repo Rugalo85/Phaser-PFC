@@ -4,14 +4,18 @@ var splashState = {
         //backgound colour
         game.stage.backgroundColor = "#FFFFFF";
 
-        //music
+        //music - split into 2 tracks (splashscreen and menu)
         game.splashMusic = game.add.audio('splashScreenTheme');
+        game.splashMusic.allowMultiple = true;
+        game.splashMusic.addMarker('splash', 0, 8.83);
+        game.splashMusic.addMarker('menu', 8.83, 110);
 
         //logos
         //CEEDCV - anchor and transparency edited
         var ceedcvLogo = game.add.sprite(game.width/2, game.height/2, 'ceedcv-logo');
         ceedcvLogo.anchor.setTo(0.5, 0.5);
         ceedcvLogo.alpha = 0;
+
         //RUBEN name - scaled, anchor and transparency edited
         var rubenLogo = game.add.sprite(game.width/2, 210, 'ruben-logo');
         rubenLogo.scale.setTo(0.6, 0.7);
@@ -34,8 +38,8 @@ var splashState = {
 
 
         //beginning of the fade-in and fade-out events
-        game.splashMusic.volume = 0.3;
-        game.splashMusic.play();
+
+        game.splashMusic.play('splash', 0, 0.1);
 
         //CEEDCV logo
         game.time.events.add(500, function() {
@@ -63,7 +67,7 @@ var splashState = {
         }, this);
 
         //MENU state
-        game.time.events.add(9000, function() { this.start() }, this);
+        game.time.events.add(9150, function() { this.start() }, this);
 
         //pressing the SPACE BAR skips the splash screen
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -72,6 +76,8 @@ var splashState = {
 
     start: function() {
         //loading fourth state, MAIN MENU
+        game.splashMusic.stop('splash');
         game.state.start('menu');
+        game.splashMusic.play('menu', 0, 0.1);
     }
 }
