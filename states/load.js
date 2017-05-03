@@ -37,7 +37,7 @@ var loadState = {
         game.load.image('player', './assets/sprites/player.png');
         game.load.image('item01', './assets/sprites/item01.png');
         game.load.image('enemy01', './assets/sprites/enemy01.png');
-        game.load.image('missile', './assets/sprites/missile.png');
+        game.load.image('bullet', './assets/sprites/bullet.png');
         game.load.image('arrow', './assets/sprites/arrow.png');
 
         //spritesheets
@@ -47,7 +47,12 @@ var loadState = {
         game.load.audio('1up', './assets/sfx/1up.wav');
         game.load.audio('coin', './assets/sfx/coin.wav');
         game.load.audio('shoot', './assets/sfx/shoot.wav');
+        game.load.audio('player_explosion', ['./assets/sfx/player_explosion.ogg', './assets/sfx/player_explosion.mp3']);
+        game.load.audio('enemy_explosion', ['./assets/sfx/enemy_explosion.ogg', './assets/sfx/enemy_explosion.mp3']);
         game.load.audio('select', ['./assets/sfx/select.ogg', './assets/sfx/select.mp3']);
+        game.load.audio('selected', ['./assets/sfx/selected.ogg', './assets/sfx/selected.mp3']);
+        
+        
 
         //music
         game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);

@@ -72,6 +72,8 @@ var splashState = {
         //pressing the SPACE BAR skips the splash screen
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.addOnce(this.start, this);
+        //clicking or touching the screen skips the splash screen
+        game.input.onDown.add(this.start, this);
     },
 
     start: function() {
