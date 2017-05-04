@@ -1,3 +1,5 @@
+var splashMusic;
+
 var splashState = {
 
     create: function() {
@@ -5,10 +7,10 @@ var splashState = {
         game.stage.backgroundColor = "#FFFFFF";
 
         //music - split into 2 tracks (splashscreen and menu)
-        game.splashMusic = game.add.audio('splashScreenTheme');
-        game.splashMusic.allowMultiple = true;
-        game.splashMusic.addMarker('splash', 0, 8.83);
-        game.splashMusic.addMarker('menu', 8.83, 110);
+        splashMusic = game.add.audio('splashScreenTheme');
+        splashMusic.allowMultiple = true;
+        splashMusic.addMarker('splash', 0, 8.83);
+        splashMusic.addMarker('menu', 8.83, 110);
 
         //logos
         //CEEDCV - anchor and transparency edited
@@ -38,8 +40,7 @@ var splashState = {
 
 
         //beginning of the fade-in and fade-out events
-
-        game.splashMusic.play('splash', 0, 0.1);
+        splashMusic.play('splash', 0, 0.1);
 
         //CEEDCV logo
         game.time.events.add(500, function() {
@@ -78,8 +79,8 @@ var splashState = {
 
     start: function() {
         //loading fourth state, MAIN MENU
-        game.splashMusic.stop('splash');
+        splashMusic.stop('splash');
         game.state.start('menu');
-        game.splashMusic.play('menu', 0, 0.1);
+        splashMusic.play('menu', 0, 0.1);
     }
 }

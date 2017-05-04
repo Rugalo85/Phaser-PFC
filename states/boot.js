@@ -1,3 +1,11 @@
+var pushedStart = false;
+
+function fadeInside() {
+    
+}
+
+
+
 var bootState = {
     preload: function () {
         //loading bar sprite

@@ -7,7 +7,6 @@ var points;
 var enemies;
 var livesText;
 var scoreText;
-
 var score = 0;
 
 

@@ -29,8 +29,14 @@ var loadState = {
         game.load.image('parallaxMenu01', './assets/backgrounds/parallaxMenu01.png');
         /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
         game.load.image('parallaxMenu03', './assets/backgrounds/parallaxMenu03.png');
-        game.load.image('stage-back', './assets/backgrounds/stage-back.gif');
-
+        game.load.image('parallaxOptions01', './assets/backgrounds/parallaxOptions01.png');
+        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxOptions03', './assets/backgrounds/parallaxOptions03.png');
+        game.load.image('parallaxCredits01', './assets/backgrounds/parallaxCredits01.png');
+        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxCredits03', './assets/backgrounds/parallaxCredits03.png');
+        game.load.image('fadeToBlack', './assets/backgrounds/fadeToBlack.jpg');
+        
         //sprites-logos
         game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
         game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
@@ -52,10 +58,11 @@ var loadState = {
         game.load.audio('select', ['./assets/sfx/select.ogg', './assets/sfx/select.mp3']);
         game.load.audio('selected', ['./assets/sfx/selected.ogg', './assets/sfx/selected.mp3']);
         
-        
-
         //music
         game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);
+        
+        //jsons
+        game.load.json('credits', './assets/json/credits.json');
     },
 
     create: function() {
