@@ -1,3 +1,5 @@
+var splashMusic;
+
 var loadState = {
 
     preload: function() {
@@ -35,7 +37,7 @@ var loadState = {
         game.load.image('parallaxCredits01', './assets/backgrounds/parallaxCredits01.png');
         /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
         game.load.image('parallaxCredits03', './assets/backgrounds/parallaxCredits03.png');
-        game.load.image('fadeToBlack', './assets/backgrounds/fadeToBlack.jpg');
+        game.load.image('fadeScreen', './assets/backgrounds/fadeToBlack.jpg');
         
         //sprites-logos
         game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
@@ -60,12 +62,15 @@ var loadState = {
         
         //music
         game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);
-        
+        game.load.audio('creditsTheme', ['./assets/music/Credits.ogg', './assets/music/Credits.mp3']);
         //jsons
         game.load.json('credits', './assets/json/credits.json');
     },
 
     create: function() {
+        splashMusic = game.add.audio('splashScreenTheme');
+        splashMusic.allowMultiple = true;
+        
         game.state.start('splash');
     }
 }

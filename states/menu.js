@@ -1,9 +1,3 @@
-//GLOBAL GAME VARIABLES
-var multiPlayer = false;
-var playerLives = 5;
-var speed = 8;
-var gainLives = 1000;
-
 //TEXT
 var pushStart;
 var gameText;
@@ -12,12 +6,11 @@ var creditText;
 
 //SPRITES
 var arrow;
-var fadeToBlack;
 
 //SOUND
 var selectSound;
 var selectedSound;
-var splashMu
+
 //OTHER
 var timer;
 
@@ -53,19 +46,15 @@ var menuState = {
         //GAME TITLE
         var gameTitle = game.add.text(game.width/2, 150, 'Zephyrus Project', {font: '50px PrStart', fill: '#ffffff'});
         gameTitle.anchor.setTo(0.5, 0.5);
-        
-        //FADEtoblack background
-        fadeToBlack = game.add.tileSprite(0, 0, 1280, 720, 'fadeToBlack');
-        fadeToBlack.alpha = 0;
-        
+
         //MAIN MENU
         //press space bar to open the menu
-        
         if (pushedStart == false) {
             pushStart = game.add.text(game.width/2, 460, 'Press the SPACE BAR or CLICK', {font: '20px PrStart', fill: '#ffffff'});
             pushStart.anchor.setTo(0.5, 0.5);
             pushStart.inputEnabled = true;
             pushStart.input.useHandCursor = true;
+            
             game.time.events.add(0, function() {
                 timer = game.time.create(false);	
                 timer.loop(500, function() {
@@ -76,22 +65,28 @@ var menuState = {
                     }}, this);
                 timer.start();
             }, this);
-
+            
             //pressing the SPACE BAR or click on the text begins the game
             spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            spaceKey.onDown.addOnce(this.deployMainMenu, this);
-            pushStart.events.onInputDown.add(this.deployMainMenu, this);
-        } else {
+            spaceKey.onDown.addOnce(function() {
+                                            selectedSound.play();
+                                            this.deployMainMenu();
+                                            }, this);
             
+            pushStart.events.onInputDown.add(function() {
+                                            selectedSound.play();
+                                            this.deployMainMenu();
+                                            }, this);
+        } else {
             this.deployMainMenu();
+            fadeInScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
+            fadeInScreen.alpha = 1;
+            
+            fadeInState(fadeInScreen, splashMusic);
         }
-        
     },
 
     update: function() {
-        fadeToBlack = game.add.tileSprite(0, 0, 1280, 720, 'fadeToBlack');
-        fadeToBlack.alpha = 0;
-        
         //parallax images movement
         this.parallax01.tilePosition.x -= 0.2;
        /*this.parallax02.tilePosition.x -= 0.7;*/
@@ -103,8 +98,7 @@ var menuState = {
         timer.stop();
         pushedStart = true;
         pushStart.kill(); 
-        selectedSound.play();
-        
+       
         //Selection arrows
         this.arrow = game.add.sprite(540, 430, 'arrow');
         this.arrow.anchor.setTo(0.5, 0.5);
@@ -126,6 +120,9 @@ var menuState = {
         creditText.anchor.setTo(0, 0.5);
         creditText.inputEnabled = true;
         creditText.input.useHandCursor = true;
+
+        fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
+        fadeOffScreen.alpha = 0;
         
         //Menu navigation
         down = game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -151,24 +148,33 @@ var menuState = {
         intro = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         intro.onDown.add(function() {
             if (this.arrow.y == 430) {
-                this.goToState('game', gameText );
+                blinkingText(gameText);
+                fadeOutState(fadeOffScreen, 'game', splashMusic);
                 selectedSound.play();
-               // splashMusic.stop();
+                disableKeys();
+                game.input.enabled = false;
+                
             } else if (this.arrow.y == 460) {
-                this.goToState('options', optionText);
+                blinkingText(optionText);
+                fadeOutState(fadeOffScreen, 'options', splashMusic);
                 selectedSound.play();
-              //  splashMusic.stop();
+                disableKeys();
+                game.input.enabled = false;
+                
             } else if (this.arrow.y == 490) {
-                this.goToState('credits', creditText);
+                blinkingText(creditText);
+                fadeOutState(fadeOffScreen, 'credits', splashMusic);
                 selectedSound.play();
-               // splashMusic.stop();
+                disableKeys();
+                game.input.enabled = false;
             }
         }, this);
-        
-        
+
         gameText.events.onInputDown.add(function() {
-                                                this.goToState('game');
-                                                selectedSound.play();           
+                                                blinkingText(gameText);
+                                                fadeOutState(fadeOffScreen, 'game', splashMusic);
+                                                selectedSound.play();
+                                                disableKeys();
                                             }, this);
         
         gameText.events.onInputOver.add(function() {
@@ -176,9 +182,13 @@ var menuState = {
                                                 selectSound.play();             
                                             }, this);
         
+        
+        
         optionText.events.onInputDown.add(function() {
-                                               this.goToState('options', optionText);
-                                                selectedSound.play();           
+                                                blinkingText(optionText);
+                                                fadeOutState(fadeOffScreen, 'options', splashMusic);
+                                                selectedSound.play(); 
+             disableKeys();
                                             }, this);
         
         optionText.events.onInputOver.add(function() {
@@ -186,9 +196,13 @@ var menuState = {
                                                 selectSound.play();             
                                             }, this);
                 
+        
+        
         creditText.events.onInputDown.add(function() {
-                                                this.goToState('credits', creditText);
-                                                selectedSound.play();           
+                                                blinkingText(creditText);
+                                                fadeOutState(fadeOffScreen, 'credits', splashMusic);
+                                                selectedSound.play();     
+             disableKeys();
                                             }, this);
         
         creditText.events.onInputOver.add(function() {
@@ -196,27 +210,6 @@ var menuState = {
                                                 selectSound.play();            
                                             }, this);
     },
-
-    goToState: function(state, text) {
-        game.time.events.add(0, function() {
-            timer = game.time.create(false);	
-            timer.loop(150, function() {
-                if (text.exists) {
-                    text.kill();
-                } else {
-                    text.revive();	
-                }}, this);
-            timer.start();
-        }, this);
-        
-        game.time.events.add(500, function() {    
-            game.add.tween(fadeToBlack).to({alpha: 1}, 750, Phaser.Easing.Linear.None, true);
-        }, this); 
-        
-        game.time.events.add(1500, function() {
-            game.state.start(state);
-        }, this); 
-},
     
 }
 

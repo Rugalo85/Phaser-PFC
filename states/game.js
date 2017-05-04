@@ -158,8 +158,8 @@ var gameState = {
     
     //funcion para restar vidas al jugador
     killPlayer: function(player, enemy) {
-        lives--;
-        livesText.text = 'Lives: ' + lives;
+        playerLives--;
+        livesText.text = 'Lives: ' + playerLives;
         player.kill();
         
         playerExplosion.play();

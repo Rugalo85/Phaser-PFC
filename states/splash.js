@@ -9,10 +9,11 @@ var splashState = {
         //music - split into 2 tracks (splashscreen and menu)
         splashMusic = game.add.audio('splashScreenTheme');
         splashMusic.allowMultiple = true;
+        //music markers /name, start, end/
         splashMusic.addMarker('splash', 0, 8.83);
         splashMusic.addMarker('menu', 8.83, 110);
 
-        //logos
+        //LOGOS
         //CEEDCV - anchor and transparency edited
         var ceedcvLogo = game.add.sprite(game.width/2, game.height/2, 'ceedcv-logo');
         ceedcvLogo.anchor.setTo(0.5, 0.5);
@@ -25,19 +26,19 @@ var splashState = {
         rubenLogo.alpha = 0;
 
         //PRESENTS text
-        var presentsLogo2 = game.add.text(game.width/2, 325, '-PRESENTS-', {font: '20px PrStart', fill: '#000000'});
-        presentsLogo2.anchor.setTo(0.5, 0.5);
-        presentsLogo2.alpha = 0;
+        var presents = game.add.text(game.width/2, 325, '-PRESENTS-', {font: '20px PrStart', fill: '#000000'});
+        presents.anchor.setTo(0.5, 0.5);
+        presents.alpha = 0;
 
         //RUBEN spritesheet - scaled, body enabled and sprite reversed
         var ruben = game.add.sprite(-175, 350, 'ruben');
         game.physics.arcade.enable(ruben);
         ruben.anchor.setTo(0.5, 0.5);
         ruben.scale.x = -1;
+        
         //ANIMATION - starts out of the screen
         var run = ruben.animations.add('run');
         var animation = ruben.animations.play('run', 20, true);
-
 
         //beginning of the fade-in and fade-out events
         splashMusic.play('splash', 0, 0.1);
@@ -60,7 +61,7 @@ var splashState = {
         }, this);
 
         game.time.events.add(6450, function() {
-            game.add.tween(presentsLogo2).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
+            game.add.tween(presents).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
         }, this);
 
         game.time.events.add(7000, function() {
