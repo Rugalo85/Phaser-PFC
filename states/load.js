@@ -42,14 +42,21 @@ var loadState = {
         //sprites-logos
         game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
         game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
-        game.load.image('player', './assets/sprites/player.png');
+        game.load.image('player01', './assets/sprites/player1.png');
+        game.load.image('player02', './assets/sprites/player2.png');
         game.load.image('item01', './assets/sprites/item01.png');
-        game.load.image('enemy01', './assets/sprites/enemy01.png');
         game.load.image('bullet', './assets/sprites/bullet.png');
         game.load.image('arrow', './assets/sprites/arrow.png');
-
+        game.load.image('heart', './assets/sprites/heart.png');
+        //enemies
+        game.load.image('enemy01', './assets/sprites/enemy01.png');
+        game.load.image('enemy02', './assets/sprites/enemy02.png');
+        game.load.image('enemy03', './assets/sprites/enemy03.png');
+        game.load.image('enemyBullet', './assets/sprites/enemyBullet.png');
+        
         //spritesheets
         game.load.spritesheet('ruben', './assets/spritesheets/ruben-spritesheet.png', 375, 375);
+        game.load.atlasJSONHash('trail', './assets/spritesheets/trail.png', './assets/spritesheets/trail.json');
 
         //sound effects
         game.load.audio('1up', './assets/sfx/1up.wav');

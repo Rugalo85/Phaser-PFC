@@ -1,8 +1,13 @@
 //GLOBAL VARIABLES
 //player variables
-var playerLives = 5;
-var speed = 8;
+var player01Lives = 5;
+var player02Lives = 5;
+
+var speed01 = 8;
+var speed02 = 8;
+
 var gainLives = 1000;
+
 //options variables
 var pushedStart = false;
 var multiPlayer = false;

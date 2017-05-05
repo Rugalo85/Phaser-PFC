@@ -78,6 +78,7 @@ var menuState = {
                                             this.deployMainMenu();
                                             }, this);
         } else {
+            splashMusic.fadeIn('menu', 0, 0.1);
             this.deployMainMenu();
             fadeInScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
             fadeInScreen.alpha = 1;
@@ -182,8 +183,6 @@ var menuState = {
                                                 selectSound.play();             
                                             }, this);
         
-        
-        
         optionText.events.onInputDown.add(function() {
                                                 blinkingText(optionText);
                                                 fadeOutState(fadeOffScreen, 'options', splashMusic);
@@ -195,8 +194,6 @@ var menuState = {
                                                 this.arrow.y = 460;
                                                 selectSound.play();             
                                             }, this);
-                
-        
         
         creditText.events.onInputDown.add(function() {
                                                 blinkingText(creditText);
@@ -212,5 +209,3 @@ var menuState = {
     },
     
 }
-
-
