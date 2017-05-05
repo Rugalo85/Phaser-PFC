@@ -46,7 +46,6 @@ var gameState = {
         game.physics.enable(player01, Phaser.Physics.ARCADE);
         player01.anchor.setTo(0.5, 0.5);
         player01.scale.setTo(0.7, 0.7);        
-        
 
         //HUD
         player01Text = game.add.text(20, 20, 'PLAYER1', {font: '20px PrStart', fill: '#fff' });
@@ -56,19 +55,30 @@ var gameState = {
         score01Text = game.add.text(275 , 20, 'Score:' + score01, {font: '20px PrStart', fill: '#fff' });
         
         if (multiPlayer == true) {
-            player02 = game.add.sprite(115, 400, 'player02');
-            game.physics.enable(player02, Phaser.Physics.ARCADE);
-            player02.anchor.setTo(0.5, 0.5);
-            player02.scale.setTo(0.7, 0.7); 
+            this.addPlayer02();            
+        } else {
+            var pushStart02 = game.add.text(750, 20, 'PLAYER 2 PRESS P TO START', {font: '20px PrStart', fill: '#fff' });
             
-            //HUD        
-            player02Text = game.add.text(800, 20, 'PLAYER2', {font: '20px PrStart', fill: '#fff' });
-            heart = game.add.sprite(955, 20, 'heart');
-            heart.scale.setTo(0.035, 0.035);
-            lives02Text = game.add.text(980, 20, 'x' + player02Lives,  {font: '20px PrStart', fill: '#fff' });
-            score02Text = game.add.text(1055 , 20, 'Score:' + score02, {font: '20px PrStart', fill: '#fff' });            
+            var blinkText = game.time.events.add(0, function() {
+                                        timer = game.time.create(false);	
+                                        timer.loop(500, function() {
+                                            if (pushStart02.exists) {
+                                                pushStart02.kill();
+                                            } else {
+                                                pushStart02.revive();	
+                                            }}, this);
+                                        timer.start();
+                                    }, this);
+            
+            pKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+            pKey.onDown.addOnce(function() {
+                                    timer.stop();
+                                    pushStart02.kill(); 
+                                    multiPlayer = true;
+                                    this.addPlayer02();
+                                    }, this);
         }
-        
+
         //creacion del grupo de disparos
         bullets = game.add.group();
         bullets.enableBody = true;
@@ -81,51 +91,19 @@ var gameState = {
 
         //creacion del grupo de enemigos que van en linea recta
         enemies01 = game.add.group();
-        enemies01.enableBody = true;
-        enemies01.physicsBodyType = Phaser.Physics.ARCADE;
-        enemies01.createMultiple(30, 'enemy01');
-        enemies01.setAll('anchor.x', 0.5);
-        enemies01.setAll('anchor.y', 0.5);
-        enemies01.setAll('scale.x', 0.6);
-        enemies01.setAll('scale.y', 0.5);
-        enemies01.setAll('outOfBoundsKill', true);
-        enemies01.setAll('checkWorldBounds', true);        
-        enemies01.forEach(function(enemy){
-            enemy.body.setSize(enemy.width * 3 / 4, enemy.height * 3 / 4);
-        });
-        //this.deployenemies01();
+        this.createEnemiesGroup(enemies01, 'enemy01', 0.6, 0.5);
+        this.deployEnemies01();
         
-        //creacion del grupo de enemigos que se desplazan en diagonal
         enemies02 = game.add.group();
-        enemies02.enableBody = true;
-        enemies02.physicsBodyType = Phaser.Physics.ARCADE;
-        enemies02.createMultiple(30, 'enemy02');
-        enemies02.setAll('anchor.x', 0.5);
-        enemies02.setAll('anchor.y', 0.5);
-        enemies02.setAll('scale.x', 0.7);
-        enemies02.setAll('scale.y', 0.6);
-        enemies02.setAll('outOfBoundsKill', true);
-        enemies02.setAll('checkWorldBounds', true);        
-        enemies02.forEach(function(enemy){
-            enemy.body.setSize(enemy.width * 3 / 4, enemy.height * 3 / 4);
-        });
-        this.deployenemies02();
+        this.createEnemiesGroup(enemies02, 'enemy02', 0.7, 0.6);
+        this.deployEnemies02();
         
-        //creacion del grupo de enemigos que van en escuadron
         enemies03 = game.add.group();
-        enemies03.enableBody = true;
-        enemies03.physicsBodyType = Phaser.Physics.ARCADE;
-        enemies03.createMultiple(30, 'enemy03');
-        enemies03.setAll('anchor.x', 0.5);
-        enemies03.setAll('anchor.y', 0.5);
-        enemies03.setAll('scale.x', 0.7);
-        enemies03.setAll('scale.y', 0.7);
-        enemies03.setAll('checkWorldBounds', true);        
-        enemies03.forEach(function(enemy){
-            enemy.body.setSize(enemy.width * 3 / 4, enemy.height * 3 / 4);
-        });
-        //this.deployenemies03();
-        
+        this.createEnemiesGroup(enemies03, 'enemy03', 0.7, 0.7);
+        enemies03.setAll('outOfBoundsKill', false);
+        this.deployEnemies03();
+    
+
         //creacion del item y cambio de la escala
         points = game.add.sprite(500, 200, 'item01');
         game.physics.enable(points);
@@ -185,6 +163,20 @@ var gameState = {
     
     //PLAYER FUNCTIONS
     //Funcion para mover a la nave en un espacio limitado
+    addPlayer02: function() {
+        player02 = game.add.sprite(115, 400, 'player02');
+        game.physics.enable(player02, Phaser.Physics.ARCADE);
+        player02.anchor.setTo(0.5, 0.5);
+        player02.scale.setTo(0.7, 0.7); 
+
+        //HUD        
+        player02Text = game.add.text(800, 20, 'PLAYER2', {font: '20px PrStart', fill: '#fff' });
+        heart = game.add.sprite(955, 20, 'heart');
+        heart.scale.setTo(0.035, 0.035);
+        lives02Text = game.add.text(980, 20, 'x' + player02Lives,  {font: '20px PrStart', fill: '#fff' });
+        score02Text = game.add.text(1055 , 20, 'Score:' + score02, {font: '20px PrStart', fill: '#fff' }); 
+    },
+    
     movePlayer: function(player, speed) {
         //derecha
         if(player == player01) {
@@ -265,8 +257,25 @@ var gameState = {
     },
     
     //ENEMY FUNCTIONS
+    
+    createEnemiesGroup: function(groupName, enemyName, scaleX, scaleY) {
+        //creacion del grupo de enemigos que van en linea recta
+        groupName.enableBody = true;
+        groupName.physicsBodyType = Phaser.Physics.ARCADE;
+        groupName.createMultiple(30, enemyName);
+        groupName.setAll('anchor.x', 0.5);
+        groupName.setAll('anchor.y', 0.5);
+        groupName.setAll('scale.x', scaleX);
+        groupName.setAll('scale.y', scaleY);
+        groupName.setAll('outOfBoundsKill', true);
+        groupName.setAll('checkWorldBounds', true);        
+        groupName.forEach(function(enemy){
+            enemy.body.setSize(enemy.width * 3 / 4, enemy.height * 3 / 4);
+        });
+    },
+
     //funcion para crear los enemigos
-    deployenemies01: function() {
+    deployEnemies01: function() {
         var minEnemySpacing = 300;
         var maxEnemySpacing = 3000;
         var enemySpeed = -20;
@@ -279,10 +288,10 @@ var gameState = {
 
         }
         // Send another enemy
-        game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployenemies01, this);
+        game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployEnemies01, this);
     },
 
-    deployenemies02: function() {
+    deployEnemies02: function() {
         var minEnemySpacing = 300;
         var maxEnemySpacing = 3000;
         var enemySpeed = -350;
@@ -295,11 +304,11 @@ var gameState = {
         }
 
         // Send another enemy
-        game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployenemies02, this);
+        game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployEnemies02, this);
     },
     
     
-    deployenemies03: function() {
+    deployEnemies03: function() {
         var startingY = game.rnd.integerInRange(90, 650);
         var horizontalSpeed = -180;
         var spread = 60;
@@ -329,7 +338,7 @@ var gameState = {
             }
         }
         //Send another wave soon
-        enemies03Timer = game.time.events.add(timeBetweenWaves, this.deployenemies03, this);
+        enemies03Timer = game.time.events.add(timeBetweenWaves, this.deployEnemies03, this);
         },
     
     //funcion para sumar vidas al jugador
