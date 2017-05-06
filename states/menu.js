@@ -27,21 +27,7 @@ var menuState = {
         selectedSound.volume = 0.1;
                 
         //PARALLAX
-        this.parallax01 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu01').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu01').height,
-            'parallaxMenu01');
-        /*this.parallax02 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu02').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu02').height,
-            'parallaxMenu02');*/
-        this.parallax03 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu03').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu03').height,
-            'parallaxMenu03');
+        addParallax('parallaxMenu01', 'parallaxMenu03', 'parallaxMenu02');
         
         //GAME TITLE
         var gameTitle = game.add.text(game.width/2, 150, 'Zephyrus Project', {font: '50px PrStart', fill: '#ffffff'});
@@ -89,9 +75,9 @@ var menuState = {
 
     update: function() {
         //parallax images movement
-        this.parallax01.tilePosition.x -= 0.2;
-       /*this.parallax02.tilePosition.x -= 0.7;*/
-        this.parallax03.tilePosition.x -= 1;
+        parallax01.tilePosition.x -= 0.1;
+        parallax02.tilePosition.x -= 0.8;
+        parallax03.tilePosition.x -= 0.5;
     },
     
     deployMainMenu: function() {
@@ -107,25 +93,19 @@ var menuState = {
         game.physics.arcade.enable(this.arrow);
         
         //Adding the items of the main menu
-        gameText = game.add.text(game.width/2 - 75, 430, 'New Game', {font: '20px PrStart', fill: '#ffffff'});
-        gameText.anchor.setTo(0, 0.5);
-        gameText.inputEnabled = true;
-        gameText.input.useHandCursor = true;
-        
-        optionText = game.add.text(game.width/2 - 75, 460, 'Options', {font: '20px PrStart', fill: '#ffffff'});
-        optionText.anchor.setTo(0, 0.5);
-        optionText.inputEnabled = true;
-        optionText.input.useHandCursor = true;
-        
-        creditText = game.add.text(game.width/2 - 75, 490, 'Credits', {font: '20px PrStart', fill: '#ffffff'});
-        creditText.anchor.setTo(0, 0.5);
-        creditText.inputEnabled = true;
-        creditText.input.useHandCursor = true;
+        var textGroup = game.add.group();
+        textGroup.setAll('anchor.x', 0);
+        textGroup.setAll('anchor.y', 0.5);
+        textGroup.setAll('inputEnabled', true);
+        textGroup.setAll('useHandCursor', true);    
+        gameText = game.add.text(game.width/2 - 75, 423, 'New Game', {font: '20px PrStart', fill: '#ffffff'}, textGroup);
+        optionText = game.add.text(game.width/2 - 75, 453, 'Options', {font: '20px PrStart', fill: '#ffffff'}, textGroup);
+        creditText = game.add.text(game.width/2 - 75, 483  , 'Credits', {font: '20px PrStart', fill: '#ffffff'}, textGroup);
 
         fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
         fadeOffScreen.alpha = 0;
         
-        //Menu navigation
+        //MENU NAVIGATION
         down = game.input.keyboard.addKey(Phaser.Keyboard.S);
         down.onDown.add(function() {
             selectSound.play();
@@ -170,7 +150,8 @@ var menuState = {
                 game.input.enabled = false;
             }
         }, this);
-
+        
+        //Mouse 
         gameText.events.onInputDown.add(function() {
                                                 blinkingText(gameText);
                                                 fadeOutState(fadeOffScreen, 'game', splashMusic);
@@ -187,7 +168,7 @@ var menuState = {
                                                 blinkingText(optionText);
                                                 fadeOutState(fadeOffScreen, 'options', splashMusic);
                                                 selectedSound.play(); 
-             disableKeys();
+                                                disableKeys();
                                             }, this);
         
         optionText.events.onInputOver.add(function() {
@@ -199,7 +180,7 @@ var menuState = {
                                                 blinkingText(creditText);
                                                 fadeOutState(fadeOffScreen, 'credits', splashMusic);
                                                 selectedSound.play();     
-             disableKeys();
+                                                disableKeys();
                                             }, this);
         
         creditText.events.onInputOver.add(function() {

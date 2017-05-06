@@ -15,9 +15,10 @@ var splashState = {
 
         //LOGOS
         //CEEDCV - anchor and transparency edited
-        var ceedcvLogo = game.add.sprite(game.width/2, game.height/2, 'ceedcv-logo');
-        ceedcvLogo.anchor.setTo(0.5, 0.5);
-        ceedcvLogo.alpha = 0;
+        var poweredLogo = game.add.sprite(game.width/2, game.height/2, 'powered-logo');
+        poweredLogo.anchor.setTo(0.5, 0.5);
+        poweredLogo.scale.setTo(0.85, 0.85);
+        poweredLogo.alpha = 0;
 
         //RUBEN name - scaled, anchor and transparency edited
         var rubenLogo = game.add.sprite(game.width/2, 210, 'ruben-logo');
@@ -45,11 +46,11 @@ var splashState = {
 
         //CEEDCV logo
         game.time.events.add(500, function() {
-            game.add.tween(ceedcvLogo.scale).to({x:1.1, y:1.1} , 3000, Phaser.Easing.Linear.None, true);
-            game.add.tween(ceedcvLogo).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
+            game.add.tween(poweredLogo.scale).to({x:0.95, y:0.95} , 3000, Phaser.Easing.Linear.None, true);
+            game.add.tween(poweredLogo).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);     
         }, this);
         game.time.events.add(2500, function() {
-            game.add.tween(ceedcvLogo).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
+            game.add.tween(poweredLogo).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
         }, this);
 
         //RUBEN logo

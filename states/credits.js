@@ -3,22 +3,7 @@ var creditState = {
         splashMusic.stop();
         this.creditsMusic = game.add.audio('creditsTheme');
 
-        //PARALLAX
-        this.parallax01 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu01').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxCredits01').height,
-            'parallaxCredits01');
-        /*this.parallax02 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu02').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu02').height,
-            'parallaxMenu02');*/
-        this.parallax03 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxCredits03').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxCredits03').height,
-            'parallaxCredits03');
+        addParallax('parallaxCredits01', 'parallaxCredits03', 'parallaxCredits02');
 
         var gameTitle = game.add.text(game.width/2, 150, 'Credits', {font: '50px PrStart', fill: '#ffffff'});
         gameTitle.anchor.setTo(0.5, 0.5);
@@ -52,9 +37,9 @@ var creditState = {
 
     update: function() {
         //parallax images movement
-        this.parallax01.tilePosition.x -= 0.2;
-       /*this.parallax02.tilePosition.x -= 0.7;*/
-        this.parallax03.tilePosition.x -= 1;
+        parallax01.tilePosition.x -= 0.1;
+        parallax02.tilePosition.x -= 0.8;
+        parallax03.tilePosition.x -= 0.5;
                 
         if(game.input.keyboard.isDown(Phaser.Keyboard.B)) {
             fadeOutState(fadeScreen, 'menu', this.creditsMusic);

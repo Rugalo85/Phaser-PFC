@@ -2,19 +2,26 @@
 //player variables
 var player01Lives = 5;
 var player02Lives = 5;
-
 var speed01 = 8;
 var speed02 = 8;
-
 var gainLives = 1000;
 
-//options variables
+//music variables
+var splashMusic;
+
+//option variables
 var pushedStart = false;
 var multiPlayer = false;
-//--
+
+//parallax variables
+var parallax01;
+var parallax02;
+var parallax03;
+
+//----------------------------------------//
 
 //GLOBAL FUNCTIONS
-//go to another state
+//go to another state (fade out effect)
 function fadeOutState(fadeScreen, state, music) {
         game.time.events.add(500, function() {
             game.add.tween(fadeScreen).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true);
@@ -26,7 +33,7 @@ function fadeOutState(fadeScreen, state, music) {
         }, this);
 }
 
-//arrive to a new state
+//arrive to a new state (fade in effect)
 function fadeInState(fadeScreen, music) {
     game.input.enabled = true;
     game.add.tween(fadeScreen).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
@@ -35,7 +42,26 @@ function fadeInState(fadeScreen, music) {
         }, this);
 }
 
-//MENUS
+//add the parallax background
+function addParallax(screen01, screen03, screen02) {
+    parallax01 = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage(screen01).height,
+        this.game.width,
+        this.game.cache.getImage(screen01).height,
+        screen01);
+    parallax03 = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage(screen03).height,
+        this.game.width,
+        this.game.cache.getImage(screen03).height,
+        screen03);
+    parallax02 = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage(screen02).height - 100,
+        this.game.width,
+        this.game.cache.getImage(screen02).height,
+        screen02);
+}
+
+//blinking text in menus
 function blinkingText(text) {
     game.time.events.add(0, function() {
         timer = game.time.create(false);	
@@ -49,7 +75,6 @@ function blinkingText(text) {
     }, this);
 }
 
-//01 - Keyboard
 //disable all keys
 function disableKeys() {
     game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
@@ -57,14 +82,9 @@ function disableKeys() {
     game.input.keyboard.removeKey(Phaser.Keyboard.W);
 }
 
-//02 - Mouse
+//----------------------------------------//
 
-
-
-
-//--
-
-
+//BOOT STATE
 var bootState = {
     preload: function () {
         //loading bar sprite

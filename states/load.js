@@ -1,5 +1,4 @@
-var splashMusic;
-
+//LOAD STATE
 var loadState = {
 
     preload: function() {
@@ -17,6 +16,7 @@ var loadState = {
         var progressDisplay = 0;
         var ready = false;
 
+        //event to fill the progress bar
         var timerEvt = game.time.events.loop(100, function (){
             if(progressDisplay < 100){
                 if(progressDisplay < game.load.progress){
@@ -29,18 +29,18 @@ var loadState = {
 
         //background images
         game.load.image('parallaxMenu01', './assets/backgrounds/parallaxMenu01.png');
-        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');
         game.load.image('parallaxMenu03', './assets/backgrounds/parallaxMenu03.png');
         game.load.image('parallaxOptions01', './assets/backgrounds/parallaxOptions01.png');
-        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxOptions02', '../assets/backgrounds/parallaxOptions02.png');
         game.load.image('parallaxOptions03', './assets/backgrounds/parallaxOptions03.png');
         game.load.image('parallaxCredits01', './assets/backgrounds/parallaxCredits01.png');
-        /*game.load.image('parallaxMenu02', '../assets/backgrounds/parallaxMenu02.png');*/
+        game.load.image('parallaxCredits02', '../assets/backgrounds/parallaxCredits02.png');
         game.load.image('parallaxCredits03', './assets/backgrounds/parallaxCredits03.png');
         game.load.image('fadeScreen', './assets/backgrounds/fadeToBlack.jpg');
         
         //sprites-logos
-        game.load.image('ceedcv-logo', './assets/sprites/ceedcv.png');
+        game.load.image('powered-logo', './assets/sprites/powered-logo.png');
         game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
         game.load.image('player01', './assets/sprites/player1.png');
         game.load.image('player02', './assets/sprites/player2.png');
@@ -48,6 +48,7 @@ var loadState = {
         game.load.image('bullet', './assets/sprites/bullet.png');
         game.load.image('arrow', './assets/sprites/arrow.png');
         game.load.image('heart', './assets/sprites/heart.png');
+        
         //enemies
         game.load.image('enemy01', './assets/sprites/enemy01.png');
         game.load.image('enemy02', './assets/sprites/enemy02.png');
