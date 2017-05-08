@@ -1,10 +1,11 @@
 //GLOBAL VARIABLES
 //player variables
-var player01Lives = 5;
-var player02Lives = 5;
-var speed01 = 8;
-var speed02 = 8;
-var gainLives = 1000;
+var livesPlayer01 = 5;
+var livesPlayer02 = 5;
+var speedPlayer01 = 8;
+var speedPlayer02 = 8;
+var gainLivesPlayer01 = 1000;
+var gainLivesPlayer02 = 1000;
 
 //music variables
 var splashMusic;
@@ -62,10 +63,10 @@ function addParallax(screen01, screen03, screen02) {
 }
 
 //blinking text in menus
-function blinkingText(text) {
+function blinkingText(text, blinkTime) {
     game.time.events.add(0, function() {
         timer = game.time.create(false);	
-        timer.loop(150, function() {
+        timer.loop(blinkTime, function() {
             if (text.exists) {
                 text.kill();
             } else {
@@ -80,6 +81,42 @@ function disableKeys() {
     game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.removeKey(Phaser.Keyboard.S);
     game.input.keyboard.removeKey(Phaser.Keyboard.W);
+}
+
+//player movement and controls
+function movePlayer(player, speed, upButton, downButton, leftButton, rightButton, shootButton, shootFunction) {
+    //up
+    if(game.input.keyboard.isDown(upButton)) {
+        player.y -= speed;
+    //down
+    } else if(game.input.keyboard.isDown(downButton)) {
+        player.y += speed;
+    }
+    
+    //left
+    if(game.input.keyboard.isDown(leftButton)) {
+        player.x -= speed;
+    //right
+    } else if(game.input.keyboard.isDown(rightButton)) {
+        player.x += speed;
+    }
+
+    //shoot - shootFunction declared inside the GAME STATE
+    shootButton = game.input.keyboard.addKey(shootButton);
+    shootButton.onDown.add(shootFunction, this);
+
+    //The players moves inside an area
+    if (player.x < 100) {
+        player.x = 100;
+    } else if (player.x > 1150) {
+        player.x = 1150;
+    }
+
+    if (player.y < 90) {
+        player.y = 90;
+    } else if (player.y > 650) {
+        player.y = 650;
+    }
 }
 
 //----------------------------------------//
@@ -100,7 +137,7 @@ var bootState = {
         game.stage.disableVisibilityChange = true;
 
         //fullscreen everytime
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 
         //screen bounderies
         game.world.setBounds(0, 0, 1280, 720);

@@ -1,75 +1,55 @@
 //VARIABLES
+//players
 var player01;
 var player02;
-
-var score01 = 0;
-var score02 = 0;
-
-var bullets;
+//scores
+var scorePlayer01 = 0;
+var scorePlayer02 = 0;
+//shoots
+var bulletsPlayer01;
+var bulletsPlayer02;
 var enemyBullets;
-
+//enemies
 var enemies01;
 var enemies02;
 var enemies03;
 var enemies03Timer;
-
+//HUD
 var heart;
 var player01Text;
-var lives01Text;
-var score01Text;
+var player01LivesText;
+var player01ScoreText;
 var player02Text;
-var lives02Text;
-var score02Text;
+var player02LivesText;
+var player02ScoreText;
 
 var gameState = {
     create: function() {
         game.input.enabled = true;
-        //creacion de fondo y cambio de altura-achura por el lienzo del juego
-        this.parallax01 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu01').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu01').height,
-            'parallaxMenu01');
-        /*this.parallax02 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu02').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu02').height,
-            'parallaxMenu02');*/
-        this.parallax03 = this.game.add.tileSprite(0,
-            this.game.height - this.game.cache.getImage('parallaxMenu03').height,
-            this.game.width,
-            this.game.cache.getImage('parallaxMenu03').height,
-            'parallaxMenu03');
+        addParallax('parallaxMenu01', 'parallaxMenu03', 'parallaxMenu02');
         
-        //creacion de la nave y cambio de la escala
+        //PLAYER 01 spaceship
         player01 = game.add.sprite(115, 300, 'player01');
         game.physics.enable(player01, Phaser.Physics.ARCADE);
         player01.anchor.setTo(0.5, 0.5);
         player01.scale.setTo(0.7, 0.7);        
 
-        //HUD
+        //PLAYER 01 HUD
         player01Text = game.add.text(20, 20, 'PLAYER1', {font: '20px PrStart', fill: '#fff' });
         heart = game.add.sprite(175, 20, 'heart');
         heart.scale.setTo(0.035, 0.035);
-        lives01Text = game.add.text(200, 20, 'x' + player01Lives,  {font: '20px PrStart', fill: '#fff' });
-        score01Text = game.add.text(275 , 20, 'Score:' + score01, {font: '20px PrStart', fill: '#fff' });
+        player01LivesText = game.add.text(200, 20, 'x' + livesPlayer01,  {font: '20px PrStart', fill: '#fff' });
+        player01ScoreText = game.add.text(275 , 20, 'Score:' + scorePlayer01, {font: '20px PrStart', fill: '#fff' });
         
+        //IF multiPlayer variable has been pressed, add a second player
         if (multiPlayer == true) {
-            this.addPlayer02();            
+            this.addPlayer02();
         } else {
+            //IF NOT, add an in-game option to add it when the second player press a button
             var pushStart02 = game.add.text(750, 20, 'PLAYER 2 PRESS P TO START', {font: '20px PrStart', fill: '#fff' });
-            
-            var blinkText = game.time.events.add(0, function() {
-                                        timer = game.time.create(false);	
-                                        timer.loop(500, function() {
-                                            if (pushStart02.exists) {
-                                                pushStart02.kill();
-                                            } else {
-                                                pushStart02.revive();	
-                                            }}, this);
-                                        timer.start();
-                                    }, this);
-            
+            //PUSH START PLAYER 02
+            blinkingText(pushStart02, 500);
+                        
             pKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
             pKey.onDown.addOnce(function() {
                                     timer.stop();
@@ -79,37 +59,48 @@ var gameState = {
                                     }, this);
         }
 
-        //creacion del grupo de disparos
-        bullets = game.add.group();
-        bullets.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(30, 'bullet');
-        bullets.setAll('anchor.x', 0);
-        bullets.setAll('anchor.y', 0.5); 
-        bullets.setAll('outOfBoundsKill', true);
-        bullets.setAll('checkWorldBounds', true);
-
-        //creacion del grupo de enemigos que van en linea recta
+        //Bullet group
+        bulletsPlayer01 = game.add.group();
+        bulletsPlayer01.enableBody = true;
+        bulletsPlayer01.physicsBodyType = Phaser.Physics.ARCADE;
+        bulletsPlayer01.createMultiple(30, 'bullet');
+        bulletsPlayer01.setAll('anchor.x', 0);
+        bulletsPlayer01.setAll('anchor.y', 0.5); 
+        bulletsPlayer01.setAll('outOfBoundsKill', true);
+        bulletsPlayer01.setAll('checkWorldBounds', true);
+        
+        bulletsPlayer02 = game.add.group();
+        bulletsPlayer02.enableBody = true;
+        bulletsPlayer02.physicsBodyType = Phaser.Physics.ARCADE;
+        bulletsPlayer02.createMultiple(30, 'bullet');
+        bulletsPlayer02.setAll('anchor.x', 0);
+        bulletsPlayer02.setAll('anchor.y', 0.5); 
+        bulletsPlayer02.setAll('outOfBoundsKill', true);
+        bulletsPlayer02.setAll('checkWorldBounds', true);
+        
+        //First enemies - straigth line
         enemies01 = game.add.group();
         this.createEnemiesGroup(enemies01, 'enemy01', 0.6, 0.5);
-        this.deployEnemies01();
+        //this.deployEnemies01();
         
-        enemies02 = game.add.group();
+        //Second enemies - diagonal
+        enemies02 = game.add.group();//First enemies - straigth lineroup();
         this.createEnemiesGroup(enemies02, 'enemy02', 0.7, 0.6);
         this.deployEnemies02();
         
+        //Third enemies - squadron
         enemies03 = game.add.group();
         this.createEnemiesGroup(enemies03, 'enemy03', 0.7, 0.7);
         enemies03.setAll('outOfBoundsKill', false);
-        this.deployEnemies03();
+        //this.deployEnemies03();
     
 
-        //creacion del item y cambio de la escala
+        //Basic item
         points = game.add.sprite(500, 200, 'item01');
         game.physics.enable(points);
         points.scale.setTo(0.01, 0.01);
         
-        //creacion de sonidos
+        //SFX
         upSound = game.add.audio('1up');
         coinSound = game.add.audio('coin');
         shootSound = game.add.audio('shoot');
@@ -119,10 +110,11 @@ var gameState = {
 
     update: function() {
         //parallax images movement
-        this.parallax01.tilePosition.x -= 0.2;
-        /*this.parallax02.tilePosition.x -= 0.7;*/
-        this.parallax03.tilePosition.x -= 1;
-        //choques entre elementos
+        parallax01.tilePosition.x -= 0.2;
+        parallax02.tilePosition.x -= 0.7;
+        parallax03.tilePosition.x -= 1;
+        
+        //collisions between elements
         game.physics.arcade.overlap(player01, points, this.collectPoints, null, this);
         game.physics.arcade.overlap(player01, enemies01, this.killPlayer, null, this);
         game.physics.arcade.overlap(player01, enemies02, this.killPlayer, null, this);
@@ -133,20 +125,22 @@ var gameState = {
         game.physics.arcade.overlap(player02, enemies02, this.killPlayer, null, this);
         game.physics.arcade.overlap(player02, enemies03, this.killPlayer, null, this);
         
-        game.physics.arcade.overlap(bullets, enemies01, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bullets, enemies02, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bullets, enemies03, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies01, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies02, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies03, this.killEnemy, null, this);
         
-        
-        //movimiento del jugador
-        this.movePlayer(player01, speed01);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies01, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies02, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies03, this.killEnemy, null, this);
+        //player movement
+        movePlayer(player01, speedPlayer01, Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR, this.player01Shoot);
         if (multiPlayer == true) {
-            this.movePlayer(player02, speed02);
+            movePlayer(player02, speedPlayer02, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.NUMPAD_0, this.player02Shoot);
         }
         this.checkScore();
     },
     
-    //FUNCION PARA VER LOS HITBOXES
+    //SEE HITBOXES
     /*render: function() {
         for (var i = 0; i < enemies01.length; i++) {
             game.debug.body(enemies01.children[i]);
@@ -162,7 +156,7 @@ var gameState = {
     },*/
     
     //PLAYER FUNCTIONS
-    //Funcion para mover a la nave en un espacio limitado
+    //Add the second player
     addPlayer02: function() {
         player02 = game.add.sprite(115, 400, 'player02');
         game.physics.enable(player02, Phaser.Physics.ARCADE);
@@ -173,67 +167,13 @@ var gameState = {
         player02Text = game.add.text(800, 20, 'PLAYER2', {font: '20px PrStart', fill: '#fff' });
         heart = game.add.sprite(955, 20, 'heart');
         heart.scale.setTo(0.035, 0.035);
-        lives02Text = game.add.text(980, 20, 'x' + player02Lives,  {font: '20px PrStart', fill: '#fff' });
-        score02Text = game.add.text(1055 , 20, 'Score:' + score02, {font: '20px PrStart', fill: '#fff' }); 
+        player02LivesText = game.add.text(980, 20, 'x' + livesPlayer02,  {font: '20px PrStart', fill: '#fff' });
+        player02ScoreText = game.add.text(1055 , 20, 'Score:' + scorePlayer02, {font: '20px PrStart', fill: '#fff' }); 
     },
-    
-    movePlayer: function(player, speed) {
-        //derecha
-        if(player == player01) {
-            if(game.input.keyboard.isDown(Phaser.Keyboard.D)) {
-                player.x += speed;
-            //izquierda
-            } else if(game.input.keyboard.isDown(Phaser.Keyboard.A)) {
-                player.x -= speed;
-            }
-            //arriba
-            if(game.input.keyboard.isDown(Phaser.Keyboard.W)) {
-                player.y -= speed;
-            //abajo
-            } else if(game.input.keyboard.isDown(Phaser.Keyboard.S)) {
-                player.y += speed;
-            }
-            
-            shootKey01 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            shootKey01.onDown.add(this.standardShoot, this);
-            
-        } else if (player == player02) {
-            if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-                player.x += speed;
-            //izquierda
-            } else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                player.x -= speed;
-            }
-            //arriba
-            if(game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-                player.y -= speed;
-            //abajo
-            } else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-                player.y += speed;
-            }
-            
-            shootKey02 = game.input.keyboard.addKey(Phaser.Keyboard.NUMPAD_0);
-            shootKey02.onDown.add(this.standardShoot, this);
-        }
-        
-        
-        //choque del jugador con limites de pantalla
-        if (player.x < 100) {
-            player.x = 100;
-        } else if (player.x > 1150) {
-            player.x = 1150;
-        }
-        
-        if (player.y < 90) {
-            player.y = 90;
-        } else if (player.y > 650) {
-            player.y = 650;
-        }
-    },
-    
-    standardShoot: function() {
+
+    player01Shoot: function() {
         //Grab the first bullet we can from the pool
-        var bullet = bullets.getFirstExists(false);
+        var bullet = bulletsPlayer01.getFirstExists(false);
         
         if (player01.alive) {
             if (bullet) {
@@ -244,12 +184,30 @@ var gameState = {
         }
     },
     
-    //funcion para restar vidas al jugador
-    killPlayer: function(player, enemy) {
-        player01Lives--;
-        lives01Text.text = 'x' + player01Lives;
-        player.kill();
+    player02Shoot: function() {
+        //Grab the first bullet we can from the pool
+        var bullet = bulletsPlayer02.getFirstExists(false);
         
+        if (player02.alive) {
+            if (bullet) {
+                bullet.reset(player02.x + 50, player02.y + 20 );
+                bullet.body.velocity.x =  800;
+            }
+            shootSound.play();
+        }
+    },
+    
+    //Remove lives from player
+    killPlayer: function(player, enemy) {
+        if (player == player01) {
+            livesPlayer01--;
+            player01LivesText.text = 'x' + livesPlayer01;
+            player01.kill();
+        } else if (player == player02) {
+            livesPlayer02--;
+            player02LivesText.text = 'x' + livesPlayer02;
+            player02.kill();
+        }
         playerExplosion.play();
         playerExplosion.volume = 0.3;
         
@@ -257,9 +215,8 @@ var gameState = {
     },
     
     //ENEMY FUNCTIONS
-    
+    //Function to create the enemies groups
     createEnemiesGroup: function(groupName, enemyName, scaleX, scaleY) {
-        //creacion del grupo de enemigos que van en linea recta
         groupName.enableBody = true;
         groupName.physicsBodyType = Phaser.Physics.ARCADE;
         groupName.createMultiple(30, enemyName);
@@ -274,7 +231,7 @@ var gameState = {
         });
     },
 
-    //funcion para crear los enemigos
+    //First enemies - straigth line
     deployEnemies01: function() {
         var minEnemySpacing = 300;
         var maxEnemySpacing = 3000;
@@ -290,7 +247,8 @@ var gameState = {
         // Send another enemy
         game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployEnemies01, this);
     },
-
+    
+    //Second enemies - diagonal
     deployEnemies02: function() {
         var minEnemySpacing = 300;
         var maxEnemySpacing = 3000;
@@ -307,7 +265,7 @@ var gameState = {
         game.time.events.add(game.rnd.integerInRange(minEnemySpacing, maxEnemySpacing), this.deployEnemies02, this);
     },
     
-    
+    //Third enemies - squadron
     deployEnemies03: function() {
         var startingY = game.rnd.integerInRange(90, 650);
         var horizontalSpeed = -180;
@@ -341,13 +299,21 @@ var gameState = {
         enemies03Timer = game.time.events.add(timeBetweenWaves, this.deployEnemies03, this);
         },
     
-    //funcion para sumar vidas al jugador
+    //Kill enemies function
     killEnemy: function(enemy, bullets) {
-        score01 += 100;
-        score01Text.text = 'Score: ' + score01;
-        enemy.kill();
-        bullets.kill();
         
+        if (bullets == bulletsPlayer01) {
+            scorePlayer01 += 100;
+            player01ScoreText.text = 'Score: ' + scorePlayer01;
+            enemy.kill();
+            bullets.kill();
+        } else if (bullets == bulletsPlayer02) {
+            scorePlayer02 += 100;
+            player02ScoreText.text = 'Score: ' + scorePlayer02;
+            enemy.kill();
+            bullets.kill();
+        }
+
         enemyExplosion.volume = 0.3;
         enemyExplosion.play();
         
@@ -355,29 +321,38 @@ var gameState = {
     },
 
     //ITEM FUNCTIONS
-    //funcion para recolectar puntos de items
+    //Gain points
     collectPoints: function(player, points) {
-        //borra el item de la pantalla
+        //Delete the item once the player grabs it
         points.kill();
-
-        //suma y actualiza la puntuacion
-        score01 += 500;
-        score01Text.text = 'Score: ' + score01;
+        
+        if (player == player01) {
+            scorePlayer01 += 500;
+            player01ScoreText.text = 'Score: ' + scorePlayer01;
+        } else if (player == player02) {
+            scorePlayer02 += 500;
+            player02ScoreText.text = 'Score: ' + scorePlayer02;
+        }
+        //Add the points to the score and update it
         coinSound.play();
     },
 
-    //funcion para sumar vidas al jugador
+    //Add lives to the player
     checkScore: function() {
-        if (score01 >= gainLives) {
-            player01Lives += 1;
-            lives01Text.text = 'x' + player01Lives;
+        if (scorePlayer01 >= gainLivesPlayer01) {
+            livesPlayer01 += 1;
+            player01LivesText.text = 'x' + livesPlayer01;
             upSound.play();
-            
-            gainLives += 1000; 
+            gainLivesPlayer01 += 1000; 
+        } else if (scorePlayer02 >= gainLivesPlayer02) {
+            livesPlayer02 += 1;
+            player02LivesText.text = 'x' + livesPlayer02;
+            upSound.play();
+            gainLivesPlayer02 += 1000; 
         }
     },
     
-    //cambia el estilo de disparo
+    //Change the shooting style
     collectPowerUps: function(player, powerUp) {
         
     },

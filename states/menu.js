@@ -129,21 +129,21 @@ var menuState = {
         intro = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         intro.onDown.add(function() {
             if (this.arrow.y == 430) {
-                blinkingText(gameText);
+                blinkingText(gameText, 150);
                 fadeOutState(fadeOffScreen, 'game', splashMusic);
                 selectedSound.play();
                 disableKeys();
                 game.input.enabled = false;
                 
             } else if (this.arrow.y == 460) {
-                blinkingText(optionText);
+                blinkingText(optionText, 150);
                 fadeOutState(fadeOffScreen, 'options', splashMusic);
                 selectedSound.play();
                 disableKeys();
                 game.input.enabled = false;
                 
             } else if (this.arrow.y == 490) {
-                blinkingText(creditText);
+                blinkingText(creditText, 150);
                 fadeOutState(fadeOffScreen, 'credits', splashMusic);
                 selectedSound.play();
                 disableKeys();
