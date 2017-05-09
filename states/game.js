@@ -63,7 +63,7 @@ var gameState = {
         bulletsPlayer01 = game.add.group();
         bulletsPlayer01.enableBody = true;
         bulletsPlayer01.physicsBodyType = Phaser.Physics.ARCADE;
-        bulletsPlayer01.createMultiple(30, 'bullet');
+        bulletsPlayer01.createMultiple(30, 'bullet01');
         bulletsPlayer01.setAll('anchor.x', 0);
         bulletsPlayer01.setAll('anchor.y', 0.5); 
         bulletsPlayer01.setAll('outOfBoundsKill', true);
@@ -72,7 +72,7 @@ var gameState = {
         bulletsPlayer02 = game.add.group();
         bulletsPlayer02.enableBody = true;
         bulletsPlayer02.physicsBodyType = Phaser.Physics.ARCADE;
-        bulletsPlayer02.createMultiple(30, 'bullet');
+        bulletsPlayer02.createMultiple(30, 'bullet02');
         bulletsPlayer02.setAll('anchor.x', 0);
         bulletsPlayer02.setAll('anchor.y', 0.5); 
         bulletsPlayer02.setAll('outOfBoundsKill', true);
@@ -125,19 +125,20 @@ var gameState = {
         game.physics.arcade.overlap(player02, enemies02, this.killPlayer, null, this);
         game.physics.arcade.overlap(player02, enemies03, this.killPlayer, null, this);
         
-        game.physics.arcade.overlap(bulletsPlayer01, enemies01, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bulletsPlayer01, enemies02, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bulletsPlayer01, enemies03, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies01, this.killEnemy01, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies02, this.killEnemy01, null, this);
+        game.physics.arcade.overlap(bulletsPlayer01, enemies03, this.killEnemy01, null, this);
         
-        game.physics.arcade.overlap(bulletsPlayer02, enemies01, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bulletsPlayer02, enemies02, this.killEnemy, null, this);
-        game.physics.arcade.overlap(bulletsPlayer02, enemies03, this.killEnemy, null, this);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies01, this.killEnemy02, null, this);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies02, this.killEnemy02, null, this);
+        game.physics.arcade.overlap(bulletsPlayer02, enemies03, this.killEnemy02, null, this);
         //player movement
         movePlayer(player01, speedPlayer01, Phaser.Keyboard.W, Phaser.Keyboard.S, Phaser.Keyboard.A, Phaser.Keyboard.D, Phaser.Keyboard.SPACEBAR, this.player01Shoot);
         if (multiPlayer == true) {
             movePlayer(player02, speedPlayer02, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.NUMPAD_0, this.player02Shoot);
         }
         this.checkScore();
+        
     },
     
     //SEE HITBOXES
@@ -173,12 +174,12 @@ var gameState = {
 
     player01Shoot: function() {
         //Grab the first bullet we can from the pool
-        var bullet = bulletsPlayer01.getFirstExists(false);
+        var bullet01 = bulletsPlayer01.getFirstExists(false);
         
         if (player01.alive) {
-            if (bullet) {
-                bullet.reset(player01.x + 50, player01.y + 20 );
-                bullet.body.velocity.x =  800;
+            if (bullet01) {
+                bullet01.reset(player01.x + 50, player01.y + 20 );
+                bullet01.body.velocity.x =  800;
             }
             shootSound.play();
         }
@@ -186,12 +187,12 @@ var gameState = {
     
     player02Shoot: function() {
         //Grab the first bullet we can from the pool
-        var bullet = bulletsPlayer02.getFirstExists(false);
+        var bullet02 = bulletsPlayer02.getFirstExists(false);
         
         if (player02.alive) {
-            if (bullet) {
-                bullet.reset(player02.x + 50, player02.y + 20 );
-                bullet.body.velocity.x =  800;
+            if (bullet02) {
+                bullet02.reset(player02.x + 50, player02.y + 20 );
+                bullet02.body.velocity.x =  800;
             }
             shootSound.play();
         }
@@ -300,26 +301,30 @@ var gameState = {
         },
     
     //Kill enemies function
-    killEnemy: function(enemy, bullets) {
-        
-        if (bullets == bulletsPlayer01) {
-            scorePlayer01 += 100;
-            player01ScoreText.text = 'Score: ' + scorePlayer01;
-            enemy.kill();
-            bullets.kill();
-        } else if (bullets == bulletsPlayer02) {
-            scorePlayer02 += 100;
-            player02ScoreText.text = 'Score: ' + scorePlayer02;
-            enemy.kill();
-            bullets.kill();
-        }
+    killEnemy01: function(enemy, bullets) {
+        scorePlayer01 += 100;
+        player01ScoreText.text = 'Score: ' + scorePlayer01;
 
+        enemy.kill();
+        bullets.kill();
         enemyExplosion.volume = 0.3;
         enemyExplosion.play();
         
         return false;
     },
+    
+    killEnemy02: function(enemy, bullets) {
+        scorePlayer02 += 100;
+        player02ScoreText.text = 'Score: ' + scorePlayer02;
 
+        enemy.kill();
+        bullets.kill();
+        enemyExplosion.volume = 0.3;
+        enemyExplosion.play();
+        
+        return false;
+    },
+    
     //ITEM FUNCTIONS
     //Gain points
     collectPoints: function(player, points) {

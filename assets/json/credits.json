@@ -1,5 +1,6 @@
-{
-    "fruit": "Apple",
-    "size": "Large",
-    "color": "Red"
+{ "player": {
+    "name": "Player01",
+    "lives": "5",
+    "speed": "8"
+    }
 }

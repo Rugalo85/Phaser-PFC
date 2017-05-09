@@ -45,7 +45,8 @@ var loadState = {
         game.load.image('player01', './assets/sprites/player1.png');
         game.load.image('player02', './assets/sprites/player2.png');
         game.load.image('item01', './assets/sprites/item01.png');
-        game.load.image('bullet', './assets/sprites/bullet.png');
+        game.load.image('bullet01', './assets/sprites/bullet.png');
+        game.load.image('bullet02', './assets/sprites/bullet.png');
         game.load.image('arrow', './assets/sprites/arrow.png');
         game.load.image('heart', './assets/sprites/heart.png');
         
