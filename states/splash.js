@@ -12,7 +12,23 @@ var splashState = {
         //music markers /name, start, end/
         splashMusic.addMarker('splash', 0, 8.83);
         splashMusic.addMarker('menu', 8.83, 110);
+        
+        //mute button
+        muteButton = game.add.sprite(game.width - 30, 30, 'mute-button');
+        muteButton.anchor.setTo(0.5, 0.5);
+        muteButton.scale.setTo(0.05, 0.05);
+        muteButton.inputEnabled = true;
+        muteButton.input.useHandCursor = true;
+        
+        muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
+        muteKey.onDown.addOnce(function() {
+                                        muteSound();
+                                        }, this);
 
+        muteButton.events.onInputDown.add(function() {
+                                        muteSound();
+                                        }, this);
+        
         //LOGOS
         //CEEDCV - anchor and transparency edited
         var poweredLogo = game.add.sprite(game.width/2, game.height/2, 'powered-logo');
@@ -72,9 +88,9 @@ var splashState = {
         //MENU state
         game.time.events.add(9150, function() { this.start() }, this);
 
-        //pressing the SPACE BAR skips the splash screen
-        var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceKey.onDown.addOnce(this.start, this);
+        //pressing ENTER skips the splash screen
+        var intro = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        intro.onDown.addOnce(this.start, this);
         //clicking or touching the screen skips the splash screen
         game.input.onDown.add(this.start, this);
     },

@@ -19,6 +19,7 @@ var parallax01;
 var parallax02;
 var parallax03;
 
+var muteButton;
 //----------------------------------------//
 
 //GLOBAL FUNCTIONS
@@ -116,6 +117,14 @@ function movePlayer(player, speed, upButton, downButton, leftButton, rightButton
         player.y = 90;
     } else if (player.y > 650) {
         player.y = 650;
+    }
+}
+
+function muteSound() {
+    if (game.sound.mute == false) {
+        this.game.sound.mute = true;
+    } else if (game.sound.mute == true){
+        this.game.sound.mute = false;
     }
 }
 

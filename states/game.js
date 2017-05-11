@@ -15,7 +15,10 @@ var enemies02;
 var enemies03;
 var enemies03Timer;
 //HUD
-var heart;
+var player01HUD;
+var player02HUD;
+var textPauseMenu;
+
 var player01Text;
 var player01LivesText;
 var player01ScoreText;
@@ -35,31 +38,38 @@ var gameState = {
         player01.scale.setTo(0.7, 0.7);        
 
         //PLAYER 01 HUD
-        player01Text = game.add.text(20, 20, 'PLAYER1', {font: '20px PrStart', fill: '#fff' });
-        heart = game.add.sprite(175, 20, 'heart');
-        heart.scale.setTo(0.035, 0.035);
-        player01LivesText = game.add.text(200, 20, 'x' + livesPlayer01,  {font: '20px PrStart', fill: '#fff' });
-        player01ScoreText = game.add.text(275 , 20, 'Score:' + scorePlayer01, {font: '20px PrStart', fill: '#fff' });
+        player01HUD = game.add.group();
+        player01HUD.setAll('anchor.x', 0.5);
+        player01HUD.setAll('anchor.y', 0.5);
+        
+        player01Text = game.add.text(20, 20, 'PLAYER1', {font: '20px PrStart', fill: '#fff' }, player01HUD);
+        heart1 = game.add.sprite(175, 20, 'heart');
+        player01HUD.add(heart1);
+        heart1.scale.setTo(0.035, 0.035);
+        player01LivesText = game.add.text(200, 20, 'x' + livesPlayer01,  {font: '20px PrStart', fill: '#fff' }, player01HUD);
+        player01ScoreText = game.add.text(275 , 20, 'Score:' + scorePlayer01, {font: '20px PrStart', fill: '#fff' }, player01HUD);
         
         //IF multiPlayer variable has been pressed, add a second player
         if (multiPlayer == true) {
             this.addPlayer02();
         } else {
             //IF NOT, add an in-game option to add it when the second player press a button
-            var pushStart02 = game.add.text(750, 20, 'PLAYER 2 PRESS P TO START', {font: '20px PrStart', fill: '#fff' });
+            var pushStart02 = game.add.text(1000, 35, 'PLAYER 2 PRESS P TO START', {font: '20px PrStart', fill: '#fff' });
+            pushStart02.anchor.set(0.5,0.5);
+            
             //PUSH START PLAYER 02
             blinkingText(pushStart02, 500);
                         
-            pKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-            pKey.onDown.addOnce(function() {
+            twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+            twoKey.onDown.addOnce(function() {
                                     timer.stop();
                                     pushStart02.kill(); 
                                     multiPlayer = true;
                                     this.addPlayer02();
                                     }, this);
-        }
-
-        //Bullet group
+        }        
+        
+        //Bullet group   
         bulletsPlayer01 = game.add.group();
         bulletsPlayer01.enableBody = true;
         bulletsPlayer01.physicsBodyType = Phaser.Physics.ARCADE;
@@ -94,7 +104,6 @@ var gameState = {
         enemies03.setAll('outOfBoundsKill', false);
         //this.deployEnemies03();
     
-
         //Basic item
         points = game.add.sprite(500, 200, 'item01');
         game.physics.enable(points);
@@ -106,6 +115,15 @@ var gameState = {
         shootSound = game.add.audio('shoot');
         playerExplosion = game.add.audio('player_explosion');
         enemyExplosion = game.add.audio('enemy_explosion');
+        pauseSound = game.add.audio('pause');
+        
+        //Pause menu
+        pauseText = game.add.text(game.width/2, 35, 'PAUSE', {font: '20px PrStart', fill: '#fff' });
+        pauseText.inputEnabled = true;
+        pauseText.anchor.setTo(0.5, 0.5);
+        pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        pauseKey.onDown.add(this.pauseMenu, this);
+        pauseText.events.onInputUp.add(this.pauseMenu, this);
     },
 
     update: function() {
@@ -141,6 +159,73 @@ var gameState = {
         
     },
     
+    pauseMenu: function() {
+        //When the paus button is pressed, we pause the game
+        game.paused = true;
+        
+        //MENU SOUNDS
+        selectedSound = game.add.audio('selected');
+        selectedSound.volume = 0.1;
+
+        // And a label to illustrate which menu item was chosen. (This is not necessary)
+        textPauseMenu = game.add.group();
+        textPauseMenu.setAll('anchor.x', 0);
+        textPauseMenu.setAll('anchor.y', 0.5);
+
+        pauseText = game.add.text(game.width/2, game.height/2 - 100, '-PAUSE MENU-', {font: '20px PrStart', fill: '#fff' }, textPauseMenu);
+        pauseText.anchor.setTo(0.5, 0.5);
+
+        resumeText = game.add.text(game.width/2 - 80, game.height/2 - 60, 'Resume', {font: '20px PrStart', fill: '#fff' }, textPauseMenu);
+
+        backMainMenuText = game.add.text(game.width/2 - 80, game.height/2 - 30, 'Main Menu', {font: '20px PrStart', fill: '#fff' }, textPauseMenu);
+
+        this.arrow = game.add.sprite(game.width/2 - 105 , game.height/2 - 50, 'arrow');
+        this.arrow.anchor.setTo(0.5, 0.5);
+        this.arrow.scale.setTo(0.5, 0.5);
+        game.physics.arcade.enable(this.arrow);
+
+        fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
+        fadeOffScreen.alpha = 0;
+        
+        //MENU NAVIGATION
+        down = game.input.keyboard.addKey(Phaser.Keyboard.S);
+        down.onDown.add(function() {
+            this.arrow.y += 30;
+            if(this.arrow.y > game.height/2 - 20) {
+                this.arrow.y = game.height/2 - 20;
+            } 
+        }, this);
+
+        up = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        up.onDown.add(function() {
+            this.arrow.y -= 30;
+            if(this.arrow.y < game.height/2 - 50) {
+                this.arrow.y = game.height/2 - 50;
+            }
+        }, this);
+        
+        intro = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        intro.onDown.add(function() {
+            if (this.arrow.y == game.height/2 - 50) {
+                //RESUME
+                game.paused = false;
+                selectedSound.play();
+                textPauseMenu.removeAll(true);
+                this.arrow.kill();
+
+            } else if (this.arrow.y == game.height/2 - 20) {
+                //MAIN MENU
+                game.paused = false;
+                selectedSound.play();
+                blinkingText(backMainMenuText, 150);
+                fadeOutState(fadeOffScreen, 'menu', splashMusic);
+                multiPlayer = false;
+                disableKeys();
+                game.input.enabled = false;
+            }
+        }, this);
+    },
+    
     //SEE HITBOXES
     /*render: function() {
         for (var i = 0; i < enemies01.length; i++) {
@@ -164,12 +249,17 @@ var gameState = {
         player02.anchor.setTo(0.5, 0.5);
         player02.scale.setTo(0.7, 0.7); 
 
-        //HUD        
-        player02Text = game.add.text(800, 20, 'PLAYER2', {font: '20px PrStart', fill: '#fff' });
-        heart = game.add.sprite(955, 20, 'heart');
-        heart.scale.setTo(0.035, 0.035);
-        player02LivesText = game.add.text(980, 20, 'x' + livesPlayer02,  {font: '20px PrStart', fill: '#fff' });
-        player02ScoreText = game.add.text(1055 , 20, 'Score:' + scorePlayer02, {font: '20px PrStart', fill: '#fff' }); 
+        //HUD
+        player02HUD = game.add.group();
+        player02HUD.setAll('anchor.x', 0.5);
+        player02HUD.setAll('anchor.y', 0.5);
+        
+        player02Text = game.add.text(800, 20, 'PLAYER2', {font: '20px PrStart', fill: '#fff' }, player02HUD);
+        heart2 = game.add.sprite(955, 20, 'heart');
+        player02HUD.add(heart2);
+        heart2.scale.setTo(0.035, 0.035);
+        player02LivesText = game.add.text(980, 20, 'x' + livesPlayer02,  {font: '20px PrStart', fill: '#fff' }, player02HUD);
+        player02ScoreText = game.add.text(1055 , 20, 'Score:' + scorePlayer02, {font: '20px PrStart', fill: '#fff' }, player02HUD); 
     },
 
     player01Shoot: function() {
