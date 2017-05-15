@@ -42,7 +42,8 @@ var loadState = {
         //sprites-logos
         game.load.image('powered-logo', './assets/sprites/powered-logo.png');
         game.load.image('ruben-logo', './assets/sprites/ruben-logo.png');
-        game.load.image('mute-button', './assets/sprites/mute.png');
+        game.load.image('muteOn', './assets/sprites/muteButtonOn.png');
+        game.load.image('muteOff', './assets/sprites/muteButtonOff.png');
         game.load.image('player01', './assets/sprites/player1.png');
         game.load.image('player02', './assets/sprites/player2.png');
         game.load.image('item01', './assets/sprites/item01.png');
@@ -71,10 +72,12 @@ var loadState = {
         game.load.audio('select', ['./assets/sfx/select.ogg', './assets/sfx/select.mp3']);
         game.load.audio('selected', ['./assets/sfx/selected.ogg', './assets/sfx/selected.mp3']);
         
-        
         //music
         game.load.audio('splashScreenTheme', ['./assets/music/Intro.ogg', './assets/music/Intro.mp3']);
         game.load.audio('creditsTheme', ['./assets/music/Credits.ogg', './assets/music/Credits.mp3']);
+        game.load.audio('optionsTheme', ['./assets/music/Options.ogg', './assets/music/Options.mp3']);
+        game.load.audio('stageTheme', ['./assets/music/Stage01.ogg', './assets/music/Stage01.mp3']);
+        
         //jsons
         game.load.json('credits', './assets/json/credits.json');
     },

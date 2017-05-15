@@ -16,7 +16,6 @@ var enterKey;
 var menuState = {
 
     create: function() {
-    
         //MENU SOUNDS
         this.selectSound = game.add.audio('select');
         this.selectSound.volume = 0.1;
@@ -30,13 +29,23 @@ var menuState = {
         var gameTitle = game.add.text(game.width/2, 150, 'Zephyrus Project', {font: '50px PrStart', fill: '#ffffff'});
         gameTitle.anchor.setTo(0.5, 0.5);
 
+        //mute button
+        muteButtonOff = game.add.sprite(game.width - 30, 30, 'muteOff');
+        muteButtonOff.anchor.setTo(0.5, 0.5);
+        muteButtonOff.scale.setTo(0.5, 0.5);
+        muteButtonOff.inputEnabled = true;
+        muteButtonOff.input.useHandCursor = true;  
+        muteSoundButtons(muteButtonOff);
+        
+        //controls info
+        controlsInfo = game.add.text(game.width/2, 30, 'W up, S down / SPACEBAR intro / M mute', {font: '12px PrStart', fill: '#ffffff'});
+        controlsInfo.anchor.setTo(0.5, 0.5);
+        
         //MAIN MENU
         //press ENTER to open the menu
         if (pushedStart == false) {
-            pushStart = game.add.text(game.width/2, 460, 'Press ENTER or CLICK', {font: '20px PrStart', fill: '#ffffff'});
+            pushStart = game.add.text(game.width/2, 460, 'Press SPACEBAR to start', {font: '20px PrStart', fill: '#ffffff'});
             pushStart.anchor.setTo(0.5, 0.5);
-            pushStart.inputEnabled = true;
-            pushStart.input.useHandCursor = true;
             
             game.time.events.add(0, function() {
                 timer = game.time.create(false);	
@@ -50,18 +59,13 @@ var menuState = {
             }, this);
             
             //pressing ENTER or click on the text begins the game
-            enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+            enterKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             enterKey.onDown.addOnce(function() {
                                             this.selectedSound.play();
                                             this.deployMainMenu();
                                             this.menuNavigation();
                                             }, this);
             
-            pushStart.events.onInputDown.add(function() {
-                                            this.selectedSound.play();
-                                            this.deployMainMenu();
-                                            this.menuNavigation();
-                                            }, this);
         } else {
             splashMusic.fadeIn('menu', 0, 0.1);
             this.deployMainMenu();
@@ -87,6 +91,7 @@ var menuState = {
         game.physics.arcade.enable(this.arrow);
         
         //MENU NAVIGATION
+        //Keyboard
         down = game.input.keyboard.addKey(Phaser.Keyboard.S);
         down.onDown.add(function() {
             this.selectSound.play();
@@ -100,7 +105,7 @@ var menuState = {
             }
         }, this);
         
-        up = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        up = game.input.keyboard.addKey(Phaser.Keyboard.W );
         up.onDown.add(function() {
             this.selectSound.play();
             this.arrow.y -= 30;
@@ -110,7 +115,7 @@ var menuState = {
             }
         }, this);
         
-        intro = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        intro = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         intro.onDown.add(function() {
             if (this.arrow.y == 410) {
                 //NEW GAME
@@ -125,7 +130,6 @@ var menuState = {
                     this.selectedSound.play();
                     disableKeys();
                     subMenu = false;
-                    game.input.enabled = false;
                 }
                 
             } else if (this.arrow.y == 440) {
@@ -143,7 +147,6 @@ var menuState = {
                     this.selectedSound.play();
                     disableKeys();
                     subMenu = false;
-                    game.input.enabled = false;
                 }
                 
             } else if (this.arrow.y == 470) {
@@ -154,7 +157,6 @@ var menuState = {
                     this.selectedSound.play();
                     disableKeys();
                     subMenu = false;
-                    game.input.enabled = false;
                 //BACK TO MAIN MENU
                 } else {
                     textSubMenu.removeAll(true);
@@ -171,54 +173,11 @@ var menuState = {
                 this.selectedSound.play();
                 disableKeys();
                 subMenu = false;
-                game.input.enabled = false;
             }
         }, this);
-        
+                
         fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
         fadeOffScreen.alpha = 0;
-        
-        /*
-        //Mouse 
-        gameText.events.onInputDown.add(function() {
-                                                blinkingText(gameText);
-                                                fadeOutState(fadeOffScreen, 'game', splashMusic);
-                                                this.selectedSound.play();
-                                                disableKeys();
-                                            }, this);
-        
-        gameText.events.onInputOver.add(function() {
-                                                this.arrow.y = 430;
-                                                this.selectSound.play();             
-                                            }, this);
-        
-        optionText.events.onInputDown.add(function() {
-                                                blinkingText(optionText);
-                                                fadeOutState(fadeOffScreen, 'options', splashMusic);
-                                                this.selectedSound.play(); 
-                                                disableKeys();
-                                            }, this);
-        
-        optionText.events.onInputOver.add(function() {
-                                                this.arrow.y = 460;
-                                                this.selectSound.play();             
-                                            }, this);
-        
-        creditText.events.onInputDown.add(function() {
-                                                blinkingText(creditText);
-                                                fadeOutState(fadeOffScreen, 'credits', splashMusic);
-                                                this.selectedSound.play();     
-                                                disableKeys();
-                                            }, this);
-        
-        creditText.events.onInputOver.add(function() {
-                                                this.arrow.y = 490;
-                                                this.selectSound.play();            
-                                            }, this);
-    */
- 
-
-        
     },
         
     deployMainMenu: function() {
@@ -232,12 +191,13 @@ var menuState = {
         textMainMenu = game.add.group();
         textMainMenu.setAll('anchor.x', 0);
         textMainMenu.setAll('anchor.y', 0.5);
-        textMainMenu.setAll('inputEnabled', true);
-        textMainMenu.setAll('useHandCursor', true);
         
         this.gameText = game.add.text(game.width/2 - 75, 403, 'New Game', {font: '20px PrStart', fill: '#ffffff'}, textMainMenu);
+        
         this.customText = game.add.text(game.width/2 - 75, 433, 'Custom Game', {font: '20px PrStart', fill: '#ffffff'}, textMainMenu);
+
         this.optionText = game.add.text(game.width/2 - 75, 463, 'Options', {font: '20px PrStart', fill: '#ffffff'}, textMainMenu);
+        
         this.creditText = game.add.text(game.width/2 - 75, 493  , 'Credits', {font: '20px PrStart', fill: '#ffffff'}, textMainMenu);
 
         fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
@@ -253,11 +213,11 @@ var menuState = {
         textSubMenu = game.add.group();
         textSubMenu.setAll('anchor.x', 0);
         textSubMenu.setAll('anchor.y', 0.5);
-        textSubMenu.setAll('inputEnabled', true);
-        textSubMenu.setAll('useHandCursor', true);
         
-        this.singleText = game.add.text(game.width/2 - 75, 403, '1 Player game', {font: '20px PrStart', fill: '#ffffff'}, textSubMenu);
+        this.singleText = game.add.text(game.width/2 - 75, 403, '1 Player Game', {font: '20px PrStart', fill: '#ffffff'}, textSubMenu);
+        
         this.multiText = game.add.text(game.width/2 - 75, 433, '2 Player Game', {font: '20px PrStart', fill: '#ffffff'}, textSubMenu);
+        
         this.backText = game.add.text(game.width/2 - 75, 463  , '<- Return', {font: '20px PrStart', fill: '#ffffff'}, textSubMenu);
         
         fadeOffScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');

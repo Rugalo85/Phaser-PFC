@@ -128,6 +128,29 @@ function muteSound() {
     }
 }
 
+function muteSoundButtons(button) {
+    muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
+    muteKey.onDown.add(function() {
+                                    muteSound();
+                                    if (game.sound.mute == true) {
+                                        button.loadTexture('muteOn');
+                                    } else {
+                                        button.loadTexture('muteOff');
+                                    }
+                                    }, this);
+
+    muteButtonOff.events.onInputDown.add(function() {
+                                    muteSound();
+                                    if (game.sound.mute == true) {
+                                        button.loadTexture('muteOn');
+                                    } else {
+                                        button.loadTexture('muteOff');
+                                    }
+                                    }, this);
+}
+
+
+
 //----------------------------------------//
 
 //BOOT STATE

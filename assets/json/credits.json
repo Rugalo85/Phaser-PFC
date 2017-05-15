@@ -1,6 +1,7 @@
-{ "player": {
-    "name": "Player01",
-    "lives": "5",
-    "speed": "8"
+{ 
+    "player": { 
+        "name": "Marta",
+        "age": 28,
+        "height": 160
     }
 }
