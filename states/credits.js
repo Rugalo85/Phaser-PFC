@@ -1,12 +1,20 @@
+var t = 1000;
+
 var creditState = {
     create: function() {
-        splashMusic.stop();
+        //RESET MULTIPLAYER VARIABLE
+        multiplayer = false;
+        
         this.creditsMusic = game.add.audio('creditsTheme');
 
-        addParallax('parallaxCredits01', 'parallaxCredits03', 'parallaxCredits02');
+        addParallax('parallaxCredits01', 'parallaxCredits02', 'parallaxCredits03', 'parallaxCredits04', 0);
+        
+        var moon = game.add.sprite(1100, 125, 'moon');
+        moon.anchor.setTo(0.5, 0.5);
+        var entrance = game.add.tween(moon).to({x:700,y:50},50000, Phaser.Easing.Linear.None, true);
 
-        var gameTitle = game.add.text(game.width/2, 150, 'Credits', {font: '50px PrStart', fill: '#ffffff'});
-        gameTitle.anchor.setTo(0.5, 0.5);
+        creditsLogo = game.add.sprite(game.width/2, game.height/2 - 225, 'creditsLogo');
+        creditsLogo.anchor.setTo(0.5, 0.5); 
         
         //mute button
         muteButtonOff = game.add.sprite(game.width - 30, 30, 'muteOff');
@@ -19,73 +27,86 @@ var creditState = {
         //controls info
         controlsInfo = game.add.text(game.width/2, 30, 'B back / M mute', {font: '12px PrStart', fill: '#ffffff'});
         controlsInfo.anchor.setTo(0.5, 0.5);
+            
+        var creditos = game.cache.getJSON('credits');
+
+        //Array to store values
+        var me = [];
+        var music = [];
+        var sound = [];
+        var resources = [];
+        var testers = [];
+        var thanks = [];
         
-        
-        var creditsText = game.add.group();
-        creditsText.setAll('anchor.x', 0.5);
-        creditsText.setAll('anchor.y', 0.5);
-    
-        
-        //var creditsJSON = game.cache.getJSON('credits');
-        
-        /*var first = game.add.text(game.width/2 - 75, 500, 'Player name: ' + creditsJSON.name, {font: '20px PrStart', fill: '#ffffff'});
-        first.anchor.setTo(0, 0.5);
-        first.alpha = 0;*/
-        
-        var creditsJSON = game.cache.getJSON('credits');
-        
-        for (var i = 0; i < creditsJSON.length; i++){        
-            var first = game.add.text(game.width/2 - 75, 500, 'Player name: ' + creditsJSON[i], {font: '20px PrStart', fill: '#ffffff'});
-            first.anchor.setTo(0, 0.5);
+        for (var i = 0; i < 6; i++) {                        
+            me[i] = game.add.text(game.width/2, 550, creditos.me[i], {font: '20px PrStart', fill: '#ffffff'});            
+            me[i].alpha = 0;
+            me[i].anchor.setTo(0.5, 0.5);
+            
+            music[i] = game.add.text(game.width/2, 550, creditos.music[i], {font: '20px PrStart', fill: '#ffffff'});            
+            music[i].alpha = 0;
+            music[i].anchor.setTo(0.5, 0.5);
+            
+            sound[i] = game.add.text(game.width/2, 550, creditos.sound[i], {font: '20px PrStart', fill: '#ffffff'});            
+            sound[i].alpha = 0;
+            sound[i].anchor.setTo(0.5, 0.5);
+            
+            resources[i] = game.add.text(game.width/2, 550, creditos.resources[i], {font: '20px PrStart', fill: '#ffffff'});            
+            resources[i].alpha = 0;
+            resources[i].anchor.setTo(0.5, 0.5);
+            
+            testers[i] = game.add.text(game.width/2, 550, creditos.testers[i], {font: '20px PrStart', fill: '#ffffff'});            
+            testers[i].alpha = 0;
+            testers[i].anchor.setTo(0.5, 0.5);            
         }
 
-        /*
-        var first = game.add.text(game.width/2 - 75, 350, 'Player name: ' + creditsJSON.player[0], {font: '20px PrStart', fill: '#ffffff'});
-        first.anchor.setTo(0, 0.5);
-        
-        var first = game.add.text(game.width/2 - 75, 380, 'Player age: ' + creditsJSON.player[1], {font: '20px PrStart', fill: '#ffffff'});
-        first.anchor.setTo(0, 0.5);
-        
-        var first = game.add.text(game.width/2 - 75, 410, 'Player height: ' + creditsJSON.player[2], {font: '20px PrStart', fill: '#ffffff'});
-        first.anchor.setTo(0, 0.5);
-*/
+        this.loopFunction(me);
+        this.loopFunction(music);
+        this.loopFunction(sound);
+        this.loopFunction(resources);
+        this.loopFunction(testers);
+
         fadeScreen = game.add.tileSprite(0, 0, 1280, 720, 'fadeScreen');
         fadeScreen.alpha = 1;
         fadeInState(fadeScreen, this.creditsMusic);
-        /*
-        game.time.events.add(1500, function() {
-            game.add.tween(first).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true);
-        }, this);
-        game.time.events.add(1500, function() {
-                game.add.tween(first).to({y: 150}, 7000, Phaser.Easing.Linear.None, true);
-        }, this);
-        game.time.events.add(8000, function() {
-                game.add.tween(first).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true);
-        }, this);
-*/
+        
+        game.time.events.add(47000, function(){
+                                    fadeOutState(fadeScreen, 'menu', this.creditsMusic);
+                                    t = 1000;
+                                }, this);
     },
 
     update: function() {
         //parallax images movement
         parallax01.tilePosition.x -= 0.1;
-        parallax02.tilePosition.x -= 0.8;
-        parallax03.tilePosition.x -= 0.5;
-                
+        parallax02.tilePosition.x -= 0.15;
+        parallax03.tilePosition.x -= 0.25;
+        parallax04.tilePosition.x -= 0.4;
+        
         if(game.input.keyboard.isDown(Phaser.Keyboard.B)) {
             fadeOutState(fadeScreen, 'menu', this.creditsMusic);
-        }   
-    },
-    
-    readJson: function() {
-        var creditsJSON = game.cache.getJSON('credits');
-        
-        creditsJSON.artwork;
-            
-        for (var i = 0; i < creditsJSON.length; i++){        
-            var first = game.add.text(game.width/2 - 75, 500, 'Player name: ' + creditsJSON[i], {font: '20px PrStart', fill: '#ffffff'});
-            first.anchor.setTo(0, 0.5);
-            first.alpha = 0;
-
+            t = 1000;
         }
     },
+
+    loopFunction: function(item) {    
+
+        item.forEach(function(key) {
+            game.time.events.add(1500 + t, function() {
+                game.add.tween(key).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true);
+            }, this);
+            
+            game.time.events.add(1000 + t, function() {
+                game.add.tween(key).to({y: 150}, 9000, Phaser.Easing.Linear.None, true);
+            }, this);
+            
+            game.time.events.add(8500 + t, function() {
+                game.add.tween(key).to({alpha: 0}, 500, Phaser.Easing.Linear.None, true);
+            }, this);
+            t += 1000;
+        });
+        
+        t+=2000;
+    }
+    
 }

@@ -1,7 +1,7 @@
 { 
-    "player": { 
-        "name": "Marta",
-        "age": 28,
-        "height": 160
-    }
+    "me":       ["-PROGRAMMING-", "-DESIGN-", "-2D GRAPHICS-", "-MANAGEMENT-", "-PRODUCTION-", "Ruben Garcia"],
+    "music":    ["-SOUNDTRACK-", "Azureflux - Quantum Leaper ft. Lady Parsec (Intro)", "Deceased Superior Technician (DST) - Inner City (Credits)", "DST - The Park (Stage 01) / Running for orur lives (Boss)", "DST - Everse (Scores)", "DST - End Times (Game Over) / Night Run (Stage Clear)"],
+    "sound":    ["-SOUND EFFECTS-", "Freesound.org - Timgormly - Menu sounds", "Freesound.org - Corsica - Girl voices", "Freesound.org - Jeremy Sykes - Item sounds", "Freesound.org - Timgormly - Explosions", "Freesound.org - W Weapons - Weapon sounds"],
+    "resources":["-RESOURCES-", "Richard Davey (Photon Storm) - Phaser framework", "Udemy - Making Games With Phaser", "Codeman38 - 'Press Start' font", "Orange Games - Phaser-input plugin", "Cina Saffary - Bootstrap Validator", "Author 05 - Resource 05"],
+    "testers":  ["-QA TESTERS / SPECIAL THANKS TO-", "Marta Renau", "Pepe Hernandez", "Jorge Parra", "Alfredo Oltra", "David Garcia"]
 }

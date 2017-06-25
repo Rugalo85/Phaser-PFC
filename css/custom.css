@@ -1,0 +1,285 @@
+@font-face { 
+	font-family: PressStart; 
+	src: url('PrStart.woff'); 
+} 
+
+html,body,.col-md-12,.row {
+  height:100%;
+}
+
+body {
+  padding-top: -150px;
+}
+
+.row > div {
+  height:100%;
+}
+
+/* to make columns visible */
+.row .left {
+  background-color:lightgrey;
+  display: flex;
+  align-items: center;
+}
+
+.row .right {
+  background-color:darkgrey;
+  display: flex;
+  align-items: center;
+}
+
+.row a {
+  text-decoration: none;
+}
+
+.ship {
+   display:block;
+   margin:auto;
+}
+
+/*SHIP Button*/
+.container {
+    position: relative;
+    width: 50%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%)
+}
+
+.container:hover .image {
+  transition: filter .5s ease;
+  opacity: 0.5;
+  filter: grayscale(0);
+  -webkit-filter: grayscale(0);
+}
+
+.container:hover .middle {
+  opacity: 1;
+
+}
+
+.text {
+  font-family: PressStart;
+  color: white;
+  font-size: 26px;
+  padding: 16px 32px;
+  text-shadow: 4px 4px #000000;
+}
+
+.myNavbar a {
+  color:white;
+}
+
+.hoverDiv:hover { 
+    background-color: yellow;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover, .nav > li > a:hover, .nav > li > a:focus {
+  background-color: #686868;
+  color:white;
+}
+
+a {
+  color: #686868;
+}
+
+.btn {
+  color:#fff;
+}
+
+
+.btn-up, .btn-up:active:focus {
+    color: #fff;
+    background-color: #686868;
+    border-color: #686868;
+}
+
+.btn-up:hover {
+  color: #fff;
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.btn-mid, .btn-mid:active:focus {
+    color: #fff;
+    background-color: #A9A9A9;
+    border-color: #A9A9A9;
+}
+
+.btn-mid:hover {
+  color: #fff;
+  background-color: #6d6d6d;
+  border-color: #6d6d6d;
+}
+
+.btn-down, .btn-down:active:focus {
+    color: #000;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+}
+
+.btn-down:hover {
+  color: #fff;
+  background-color: #A9A9A9;
+  border-color: #A9A9A9;
+}
+
+/* FORM TABS */
+.wizard {
+    margin: 20px auto;
+    background: #fff;
+}
+
+    .wizard .nav-tabs {
+        position: relative;
+        margin: 40px auto;
+        margin-bottom: 0;
+        border-bottom-color: #e0e0e0;
+    }
+
+    .wizard > div.wizard-inner {
+        position: relative;
+    }
+
+.connecting-line {
+    height: 2px;
+    background: #e0e0e0;
+    position: absolute;
+    width: 80%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 50%;
+    z-index: 1;
+}
+
+.wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+    color: #555555;
+    cursor: default;
+    border: 0;
+    border-bottom-color: transparent;
+}
+
+span.round-tab {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    border-radius: 100px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+}
+span.round-tab i{
+    color:#A9A9A9;
+}
+.wizard li.active span.round-tab {
+    background: #fff;
+    border: 4px solid #555555;
+    
+}
+.wizard li.active span.round-tab i{
+    color: #555555;
+}
+
+span.round-tab:hover {
+    color: #333;
+    border: 2px solid #333;
+}
+
+.wizard .nav-tabs > li {
+    width: 25%;
+}
+
+.wizard li:after {
+    content: " ";
+    position: absolute;
+    left: 46%;
+    opacity: 0;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 5px solid transparent;
+    border-bottom-color: #555555;
+    transition: 0.1s ease-in-out;
+}
+
+.wizard li.active:after {
+    content: " ";
+    position: absolute;
+    left: 46%;
+    opacity: 1;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 10px solid transparent;
+    border-bottom-color: #555555;
+}
+
+.wizard .nav-tabs > li a {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
+    border-radius: 100%;
+    padding: 0;
+}
+
+    .wizard .nav-tabs > li a:hover {
+        background: transparent;
+    }
+
+.wizard .tab-pane {
+    position: relative;
+    padding-top: 50px;
+}
+
+.wizard h3 {
+    margin-top: 0;
+}
+
+@media( max-width : 585px ) {
+
+    .wizard {
+        width: 90%;
+        height: auto !important;
+    }
+
+    span.round-tab {
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard .nav-tabs > li a {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard li.active:after {
+        content: " ";
+        position: absolute;
+        left: 35%;
+    }
+}
